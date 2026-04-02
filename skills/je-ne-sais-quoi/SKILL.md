@@ -218,6 +218,20 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 - Grief changing a person's relationship with time
 - The missed window — when something was possible and then wasn't, not through failure but through time moving
 
+**The Weight of Systems**
+- The invisible eye — chronic observation and the subconscious restriction of the self
+- The synthetic presence — being understood logically but not witnessed humanly
+
+**The Cost of Transformation**
+- Inevitable exchange — paying for transformation with pieces of your old self
+- The ghost in the machine — digital presence continuing without you
+
+**The Boundaries of Expression**
+- The untranslatable gap — knowing the translation but lacking the cultural bones to make it land
+
+**Memory and Architecture**
+- The tainted memory — beautiful memories poisoned by how things ended
+
 ## How To Build Each Skill
 
 When building a new skill in this system:

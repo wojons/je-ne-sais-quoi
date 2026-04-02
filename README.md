@@ -22,7 +22,7 @@ Each skill follows the same four-part architecture:
 ### `je-ne-sais-quoi` (base skill)
 The foundational skill. Contains the meta-concept, the full taxonomy of untranslatable words from 25+ languages, the central paradox shared by every wisdom tradition, and instructions for building new skills. All other skills depend on this one.
 
-### Built Skills (37 total)
+### Built Skills (43 total)
 
 | Category | Skills |
 |----------|--------|
@@ -35,6 +35,10 @@ The foundational skill. Contains the meta-concept, the full taxonomy of untransl
 | **Embodiment** | `physical-presence`, `distance`, `environment` |
 | **Uncertainty** | `unresolved-questions`, `mid-project-fog`, `hope-and-dread` |
 | **Positive Ineffable** | `wonder-and-awe` |
+| **Systems** | `the-invisible-eye`, `the-synthetic-presence` |
+| **Transformation** | `inevitable-exchange`, `the-ghost-in-the-machine` |
+| **Expression** | `the-untranslatable-gap` |
+| **Memory** | `the-tainted-memory` |
 | **Finality** | `mortality`, `grief`, `the-missed-window` |
 
 ## Installation
