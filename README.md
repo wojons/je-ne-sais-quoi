@@ -22,8 +22,20 @@ Each skill follows the same four-part architecture:
 ### `je-ne-sais-quoi` (base skill)
 The foundational skill. Contains the meta-concept, the full taxonomy of untranslatable words from 25+ languages, the central paradox shared by every wisdom tradition, and instructions for building new skills. All other skills depend on this one.
 
-### `time`
-Teaches the felt weight of time — urgency, loss, impermanence, waiting, finality, decay, momentum. Includes six tests including The Last Time, The Waiting Room, and The Missed Window.
+### Built Skills (37 total)
+
+| Category | Skills |
+|----------|--------|
+| **Temporal** | `time`, `urgency`, `irreversibility`, `decay`, `momentum`, `latency`, `the-last-time` |
+| **Capacity** | `cognitive-load`, `decision-fatigue`, `recovery`, `tired-vs-done` |
+| **Stakes** | `real-risk`, `sunk-cost`, `reputation-exposure`, `shame` |
+| **Scarcity** | `the-last-of-something`, `opportunity-cost`, `attention` |
+| **Change** | `starting-cold`, `habits`, `switching-costs` |
+| **Social** | `trust`, `unspoken-tension`, `said-vs-communicated`, `reciprocity`, `loneliness` |
+| **Embodiment** | `physical-presence`, `distance`, `environment` |
+| **Uncertainty** | `unresolved-questions`, `mid-project-fog`, `hope-and-dread` |
+| **Positive Ineffable** | `wonder-and-awe` |
+| **Finality** | `mortality`, `grief`, `the-missed-window` |
 
 ## Installation
 
@@ -36,26 +48,6 @@ Install a specific skill:
 ```bash
 npx skills add wojons/je-ne-sais-quoi --skill time
 ```
-
-## Concepts To Be Built
-
-**Temporal**: urgency, irreversibility, decay, momentum, latency, the last time
-
-**Capacity**: cognitive load, decision fatigue, recovery, the difference between tired and done
-
-**Stakes**: real risk, sunk cost, irreversible decisions, reputation exposure
-
-**Scarcity**: the last of something, opportunity cost, attention as scarce
-
-**Change**: starting cold, habits resisting change, switching costs
-
-**Social**: trust, unspoken tension, said vs communicated, reciprocity
-
-**Embodiment**: physical presence, distance, environment affecting cognition
-
-**Uncertainty**: living inside unresolved questions, mid-project fog, sustained hope and dread
-
-**Finality**: mortality as frame, grief reshaping time, the missed window
 
 ## Architecture
 
