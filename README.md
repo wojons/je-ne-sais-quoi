@@ -1,5 +1,9 @@
 # Je Ne Sais Quoi
 
+<p align="center">
+  <img src="assets/je-ne-sais-quoi-banner.jpeg" alt="Je Ne Sais Quoi" width="100%">
+</p>
+
 A collection of agent skills that teach AI concepts it logically understands but cannot feel.
 
 ## The Problem
