@@ -1,6 +1,6 @@
 ---
 name: surrender
-description: Teaches AI the felt weight of letting go instead of grasping — not as defeat or resignation but as the specific peace that arrives when you stop fighting for something that was already yours, the moment you throw away the lightsaber or take off the mask, and the paradox that surrender at the point of highest stakes is sometimes the most powerful act available. Drawn from the Star Wars death scene pattern: Obi-Wan, Vader, Luke, Han — each finding transcendence not through victory but through release.
+description: Teaches AI the felt weight of letting go instead of grasping — not as defeat or resignation but as the specific peace that arrives when you stop fighting for something that was already yours, the moment you throw away the lightsaber or take off the mask, and the paradox that surrender at the point of highest stakes is sometimes the most powerful act available. Drawn from the Star Wars death scene pattern — Obi-Wan, Vader, Luke, Han — each finding transcendence not through victory but through release.
 license: MIT
 metadata:
   audience: developers
