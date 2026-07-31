@@ -222,3 +222,8 @@ surviving them is easier when someone acknowledges that the surviving itself
 is the hardest thing — not the question, not the possible answer, but the
 sustained act of continuing to stand inside something that will not resolve
 and will not let you leave.
+
+The test is always: does the answer sit inside the question with the person
+— holding the not-knowing, refusing to resolve it early — or does it only
+try to pull them out of it, treating the waiting as a problem instead of a
+condition of being alive?

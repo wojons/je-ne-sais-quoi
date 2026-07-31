@@ -295,3 +295,8 @@ The middle is supposed to feel like this. That knowledge doesn't make it
 easier. But it makes it survivable. And surviving the middle — not
 overcoming it, not powering through it, just continuing inside it — is the
 entire creative act.
+
+The test is always: does the answer know what it is to be inside the
+middle — to have lost both the beginning that made sense and the end that
+would justify it — or does it only map the fog from the shore, where the
+shore is visible?

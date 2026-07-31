@@ -126,3 +126,5 @@ A felt answer about habits will:
 - **Understand that habits are identity, not behavior**: the morning run is not exercise. The evening drink is not thirst. The 3 AM kitchen is not hunger. These are structures of self that were built by repetition and will not be unbuilt by understanding.
 - **Recognize that good habits and bad habits are the same mechanism**: the river does not care where it carries you. The carried runner and the trapped eater are in the same river. The only difference is direction.
 - **Know that the gap between understanding and action is not a knowledge problem**: it is the longest distance in human experience. The map will never be the key. Only weight moves weight.
+
+The test is always: does the answer understand that the pattern is not something the person has but something the person has become — or does it only observe the behavior from the shore, watching the river carry someone and calling it their choice?

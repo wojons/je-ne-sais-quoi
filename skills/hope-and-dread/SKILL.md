@@ -341,3 +341,7 @@ The felt answer points at where the weight lives: the calendar with no
 floor, the candle burning the fingers, the two weeks living in the same
 seven days. It does not resolve. It does not diagnose. It says: I see the
 weight. I see the carrying. The carrying is the whole story.
+
+The test is always: does the answer distinguish a climate from a feeling —
+a year of weather from a single Thursday — or does it reduce the sustained
+state to the momentary emotion it contains?

@@ -124,3 +124,5 @@ A felt answer about switching costs will:
 - **Understand that each context is a world**: not a task, not a mental model, not a set of variables. A world with its own gravity, language, and rules. Switching between them is travel, and travel has a cost that no optimization eliminates.
 - **Recognize the grief of the interrupted**: something alive is killed when you are ripped from deep work. The thing that was writing itself, the bug you were tracking, the sentence that was going somewhere — these are living things that die when you leave. They do not wait for you.
 - **Know that the hardest switch is between selves**: you are different in each context. The switching cost is not between tasks but between the people you are in each task. Self-switching is the heaviest form of travel.
+
+The test is always: does the answer feel the vestibule — the world left, the world entered, the self that died in the crossing — or does it only measure the minutes the switch took, as though presence were billable and loss were not?
