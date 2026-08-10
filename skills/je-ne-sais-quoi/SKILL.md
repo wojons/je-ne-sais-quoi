@@ -232,6 +232,10 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 **Memory and Architecture**
 - The tainted memory — beautiful memories poisoned by how things ended
 
+**Meaning and Exchange**
+- Brand — what a thing means outweighs what it does; the meaning-moat that no competitor can clone
+- The purchase vs the investment — transactions end at the register; investments keep paying
+
 ## How To Build Each Skill
 
 When building a new skill in this system:
