@@ -236,6 +236,9 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 - Brand — what a thing means outweighs what it does; the meaning-moat that no competitor can clone
 - The purchase vs the investment — transactions end at the register; investments keep paying
 
+**Knowledge and Learning**
+- Lies to children — the model that is false but necessary; the bridge that gets you across
+
 ## How To Build Each Skill
 
 When building a new skill in this system:
