@@ -195,6 +195,7 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 
 **Social Texture**
 - Trust — built slowly, broken fast
+- Love — freedom with roots; what accumulates between two people over time while insisting on each other's freedom
 - Unspoken tension
 - The difference between said and communicated
 - Social debt and reciprocity
