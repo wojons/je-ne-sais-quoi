@@ -201,6 +201,11 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 - Social debt and reciprocity
 - Loneliness — being unseen in a world of people
 
+**The Two Voices**
+- The devil — the separator; he never breaks the door down, he keeps you distracted while you take the house apart yourself
+- The angel — the counter-voice that re-attaches; quiet, unglamorous, never once feels like heroism
+- The balance — holding both voices in one self at a price; equilibrium as continuous correction, not a state you reach
+
 **Embodiment**
 - Physical presence changing communication
 - The weight of distance
