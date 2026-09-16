@@ -1,0 +1,78 @@
+:root {
+  --parch: #f0e6d2; --parch-dark: #e6d9bc; --parch-edge: #dccdaa;
+  --ink: #3b2a1a; --ink-soft: #5a4632; --gold: #8a6d2f; --madder: #7d2e2e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink);
+  background-color: var(--parch);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(138,109,47,0.06), transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(125,46,46,0.05), transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(59,42,26,0.012) 3px, rgba(59,42,26,0.012) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(59,42,26,0.010) 5px, rgba(59,42,26,0.010) 6px);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  line-height: 1.65;
+}
+a { color: var(--madder); }
+.masthead { text-align: center; padding: 4.5rem 1rem 2.5rem; }
+.fleuron { font-size: 2.2rem; color: var(--gold); }
+.masthead h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem); margin: 0.2em 0 0;
+  letter-spacing: 0.04em; font-weight: 600;
+}
+.masthead .sub {
+  font-variant: small-caps; letter-spacing: 0.35em;
+  color: var(--ink-soft); margin: 0.4em 0 1.4em; font-size: 1.05rem;
+}
+.masthead .lede { max-width: 42rem; margin: 0 auto; color: var(--ink-soft); font-style: italic; }
+.masthead .count { color: var(--gold); font-variant: small-caps; letter-spacing: 0.2em; margin-top: 1.6em; }
+.wrap { max-width: 78rem; margin: 0 auto; padding: 0 1.2rem 4rem; }
+.about {
+  max-width: 46rem; margin: 0 auto 3rem; text-align: center;
+  border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold);
+  padding: 1.6rem 1rem;
+}
+.about h2 { font-variant: small-caps; letter-spacing: 0.18em; font-weight: 500; margin: 0 0 0.6em; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); gap: 1.4rem; }
+.card {
+  display: flex; flex-direction: column; text-decoration: none; color: inherit;
+  background: linear-gradient(160deg, var(--parch), var(--parch-dark));
+  border: 1px solid var(--parch-edge); border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(59,42,26,0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(59,42,26,0.28); }
+.card-img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 1px solid var(--parch-edge); }
+.card-img-missing { aspect-ratio: 2/3;
+  background: repeating-linear-gradient(45deg, var(--parch-dark), var(--parch-dark) 12px, var(--parch) 12px, var(--parch) 24px); }
+.card-body { padding: 0.9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; flex: 1; }
+.card-body h3 { margin: 0; font-size: 1.12rem; font-weight: 600; }
+.card-body p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); }
+.badge {
+  margin-top: auto; align-self: flex-start; font-size: 0.68rem;
+  font-variant: small-caps; letter-spacing: 0.14em; color: var(--gold);
+  border: 1px solid var(--gold); border-radius: 2px; padding: 0.1rem 0.45rem;
+}
+.colophon { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-soft); font-size: 0.9rem; }
+.colophon a { color: var(--gold); }
+/* skill pages */
+.skill-mast { text-align: center; padding: 3rem 1rem 1.5rem; }
+.skill-mast .home { display: block; margin-bottom: 1rem; color: var(--gold); text-decoration: none; font-variant: small-caps; letter-spacing: 0.2em; }
+.skill-mast h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 600; }
+.sheet { max-width: 46rem; margin: 0 auto; padding: 0 1.2rem 4rem; }
+figure.plate { margin: 0 0 2rem; text-align: center; }
+figure.plate img {
+  width: 100%; border-radius: 3px; border: 1px solid var(--parch-edge);
+  box-shadow: 0 4px 18px rgba(59,42,26,0.3);
+}
+figure.plate figcaption { margin-top: 0.5rem; font-style: italic; color: var(--ink-soft); font-size: 0.9rem; }
+.movement { margin: 2.5rem 0; }
+.movement h2 {
+  font-variant: small-caps; letter-spacing: 0.16em; font-weight: 500;
+  border-bottom: 1px solid var(--gold); padding-bottom: 0.3rem;
+}
+.movement.felt { background: rgba(138,109,47,0.05); padding: 1.2rem 1.4rem; border-left: 3px solid var(--gold); }
+.movement.failure { background: rgba(125,46,46,0.05); padding: 1.2rem 1.4rem; border-left: 3px solid var(--madder); }
+.movement blockquote { border-left: 2px solid var(--gold); margin-left: 0; padding-left: 1rem; color: var(--ink-soft); font-style: italic; }
+.colophon-nav { text-align: center; margin-top: 3rem; font-variant: small-caps; letter-spacing: 0.12em; }
