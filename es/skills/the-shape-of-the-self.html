@@ -14,7 +14,7 @@
   <h1>La Forma del Ser</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-shape-of-the-self-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-shape-of-the-self-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-shape-of-the-self-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/the-shape-of-the-self-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Los límites son las demarcaciones y reglas que las personas establecen para sí mismas dentro de las relaciones. Unos límites saludables permiten a los individuos proteger su bienestar mientras mantienen conexiones con otros.</p>
 <p>La teoría psicológica de los límites, desarrollada por investigadores de los sistemas familiares, describe cómo los individuos se diferencian de los demás. Los límites existen en un espectro que va desde el enmarañamiento (sin una distinción clara) hasta la desconexión (separación rígida). Un funcionamiento saludable implica límites flexibles que pueden adaptarse al contexto.</p>
 <p>El espacio personal se refiere a la distancia física que las personas mantienen con los demás. La investigación en proxémica muestra variaciones culturales en las distancias consideradas cómodas. La violación del espacio personal desencadena respuestas fisiológicas de estrés.</p>
@@ -119,6 +119,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

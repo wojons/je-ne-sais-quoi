@@ -14,7 +14,7 @@
   <h1>Niebla en la mitad del proyecto</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/mid-project-fog-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/mid-project-fog-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/mid-project-fog-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/mid-project-fog-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El «caótico intermedio» es una fase bien documentada en la gestión de proyectos y el trabajo creativo. Después de que el entusiasmo inicial se desvanece y antes del empuje final hacia la conclusión, la motivación suele decaer. Esto sigue una curva en U: alta energía al principio, baja energía en el medio, energía renovada cerca del final.</p>
 <p>La investigación psicológica lo llama el «principio del progreso»: las personas están más motivadas cuando pueden ver un progreso tangible. En medio de un proyecto, el progreso se vuelve más difícil de percibir. El trabajo se vuelve más duro. La claridad inicial se desvanece. Esto es normal y esperable.</p>
 <p>Las estrategias recomendadas son: dividir el trabajo en hitos más pequeños, seguir el progreso visualmente, mantener un horario regular y recordar que el bajón es temporal.</p>
@@ -87,6 +87,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

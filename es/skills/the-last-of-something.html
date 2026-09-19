@@ -14,7 +14,7 @@
   <h1>Lo último de algo</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-last-of-something-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-last-of-something-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-last-of-something-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/the-last-of-something-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La escasez aumenta el valor percibido. Este es un principio básico de la economía: cuando la oferta disminuye, la demanda de las unidades restantes se intensifica. El último elemento de una serie no conlleva ninguna diferencia objetiva con los que lo precedieron; es idéntico en su composición. La diferencia es posicional: ocupa la posición terminal en una secuencia finita.</p>
 <p>El hecho de ser "lo último" de algo es un dato categórico, no una propiedad del objeto en sí. El episodio final de una serie de televisión contiene los mismos fotogramas por segundo que el primero. La última cucharada de una comida tiene la misma composición química que la primera. La última página de un libro es papel y tinta como cualquier otra página.</p>
 <p>Psicológicamente, este fenómeno se explica por la aversión a la pérdida: las personas sopesan más las pérdidas potenciales que las ganancias equivalentes. La inminente falta de disponibilidad de algo desencadena una respuesta de duelo preventivo. Los finales son cognitivamente prominentes porque violan la expectativa de continuación que el cerebro utiliza para modelar el futuro.</p>
@@ -96,6 +96,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

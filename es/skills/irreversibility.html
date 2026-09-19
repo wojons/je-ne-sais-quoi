@@ -14,7 +14,7 @@
   <h1>Irreversibilidad</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/irreversibility-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/irreversibility-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/irreversibility-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/irreversibility-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Una acción irreversible es aquella cuyos efectos no pueden devolverse al estado anterior. En termodinámica, esto es la entropía: procesos que disipan energía y no pueden invertirse. En computación, es una función unidireccional: fácil de calcular, inviable de invertir. En la teoría de la decisión, es una elección que elimina alternativas de forma permanente.</p>
 <p>La reversibilidad es el fundamento de los sistemas seguros. Las bases de datos tienen transacciones y reversiones (<em>rollback</em>). El código tiene control de versiones. Las decisiones pueden hacerse reversibles mediante una arquitectura cuidadosa. La recomendación es clara: siempre que sea posible, haz que las decisiones sean reversibles. Reserva la irreversibilidad para los momentos en que sea inevitable.</p>
 <p>La distinción importa porque las decisiones reversibles pueden tomarse rápidamente —siempre puedes deshacerlas—. Las decisiones irreversibles deben tomarse con lentitud, con deliberación, porque tendrás que vivir con ellas.</p>
@@ -99,6 +99,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

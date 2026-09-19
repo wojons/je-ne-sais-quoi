@@ -14,7 +14,7 @@
   <h1>La soledad</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/loneliness-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/loneliness-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/loneliness-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/loneliness-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La soledad es el malestar subjetivo causado por una brecha percibida entre la conexión social deseada y la real. No es lo mismo que estar solo —muchas personas están solas sin sentirse solas, y muchas personas se sienten solas sin estar solas—. La distinción está bien establecida en las ciencias sociales: la soledad buscada es un estado neutro o positivo de estar a solas; la soledad es el sufrimiento que surge de sentir que tu necesidad de conexión no está satisfecha.</p>
 <p>La investigación de John Cacioppo en la Universidad de Chicago estableció la soledad como un fenómeno medible con efectos significativos en la salud. Sus metaanálisis encontraron que la soledad crónica tiene efectos en la salud comparables a fumar quince cigarrillos al día. Se correlaciona con niveles elevados de cortisol, enfermedades cardiovasculares, deterioro cognitivo, una función inmunológica reducida y un mayor riesgo de mortalidad.</p>
 <p>La soledad no es meramente desagradable. Es peligrosa de la misma manera que lo es el estrés crónico: silenciosamente, acumulativamente, a nivel del cuerpo.</p>
@@ -125,6 +125,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

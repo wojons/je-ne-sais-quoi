@@ -14,7 +14,7 @@
   <h1>Carga cognitiva</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/cognitive-load-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/cognitive-load-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/cognitive-load-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/cognitive-load-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La carga cognitiva se refiere a la cantidad total de esfuerzo mental que se utiliza en la memoria de trabajo. La Ley de Miller sugiere que los seres humanos pueden retener aproximadamente 7, más o menos 2, elementos en la memoria a corto plazo. La Teoría de la Carga Cognitiva, desarrollada por John Sweller, distingue tres tipos: la carga intrínseca (la complejidad inherente de la tarea), la carga extrínseca (las distracciones y un mal diseño) y la carga pertinente (el esfuerzo productivo orientado al aprendizaje).</p>
 <p>Cuando la carga cognitiva supera la capacidad disponible, el rendimiento se degrada. Esto se manifiesta en un procesamiento más lento, un aumento de los errores, el olvido y una reducción en la calidad de las decisiones. El cambio de tarea agrava el problema: cada cambio de contexto conlleva un coste cognitivo estimado entre 15 y 25 minutos de tiempo para volver a concentrarse.</p>
 <p>La multitarea es un término equívoco; en realidad, el cerebro realiza rápidos cambios de tarea, lo que aumenta la carga cognitiva total más allá de la suma de las tareas individuales. Reducir la carga cognitiva mediante la externalización (anotar las cosas, usar herramientas) y el diseño del entorno (reducir las interrupciones) mejora el rendimiento.</p>
@@ -117,6 +117,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

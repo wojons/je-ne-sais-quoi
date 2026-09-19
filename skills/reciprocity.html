@@ -14,7 +14,7 @@
   <h1>Reciprocity</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/reciprocity-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/reciprocity-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/reciprocity-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/reciprocity-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Reciprocity is a social norm that obligates people to respond to a positive action with another positive action. In behavioral economics, it is modeled as a strategy in repeated games — tit-for-tat, where cooperation is met with cooperation and defection with defection, has been shown to be an effective strategy in iterated prisoner's dilemmas.</p>
 <p>The norm of reciprocity serves an evolutionary function: it enables cooperation between non-kin, which increases group fitness. Robert Trivers' theory of reciprocal altruism explains how organisms can evolve to help non-relatives when the help is likely to be returned.</p>
 <p>Reciprocity creates social capital. Each favor, gift, or act of assistance creates an implicit obligation that can be called upon later. This creates networks of mutual dependence that bind communities together. Marcel Mauss, in "The Gift," demonstrated that gift-giving in pre-modern societies was not generosity but a system of obligation that maintained social bonds.</p>
@@ -102,6 +102,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

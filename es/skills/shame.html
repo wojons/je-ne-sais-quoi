@@ -14,7 +14,7 @@
   <h1>Vergüenza</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/shame-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/shame-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/shame-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/shame-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La vergüenza es una emoción autoconsciente caracterizada por una autoevaluación global negativa. A diferencia de la culpa, que se centra en un comportamiento específico («hice algo malo»), la vergüenza apunta al yo («soy malo»). La investigación de June Price Tangney demostró que la propensión a la vergüenza se correlaciona con la ira, la depresión y el malestar psicológico, mientras que la propensión a la culpa se correlaciona con la empatía y el comportamiento reparador. Los estudios longitudinales de Dearing y Tangney mostraron además que los individuos propensos a la vergüenza son más propensos a externalizar la culpa —pasando del autodesprecio a la hostilidad— porque el ataque global al yo es demasiado doloroso para sostenerlo sin redirigirlo.</p>
 <p>El trabajo de Brené Brown popularizó la distinción clínica para un público más amplio: la culpa es adaptativa y útil («hice algo malo, y puedo solucionarlo»), la vergüenza es corrosiva y tóxica («soy malo, y no puedo arreglar lo que soy»). La investigación de Brown sobre la vulnerabilidad identificó la vergüenza como la barrera principal para la conexión, la creatividad y el compromiso auténtico. Su definición —«el sentimiento o la experiencia intensamente dolorosa de creer que somos defectuosos y, por lo tanto, indignos de aceptación y pertenencia»— es ampliamente citada y precisa.</p>
 <p>Las teorías de la función social (Gilbert, 2000; Leary, 2007) argumentan que la vergüenza evolucionó para hacer cumplir las normas sociales. La amenaza de la exclusión del grupo motivaba la conformidad. En este modelo, la vergüenza es funcional, un mecanismo regulador que mantiene a los individuos alineados con las expectativas colectivas. Los marcadores conductuales incluyen el rubor, la aversión de la mirada, la postura encorvada y el deseo de retraerse o desaparecer. Los estudios de neuroimagen muestran activación en la ínsula anterior y la corteza cingulada anterior dorsal —la red de dolor físico del cerebro—, lo que sugiere que el cerebro procesa el rechazo social y la lesión corporal a través de circuitos superpuestos.</p>
@@ -126,6 +126,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

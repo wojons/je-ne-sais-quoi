@@ -14,7 +14,7 @@
   <h1>Decadencia</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/decay-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/decay-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/decay-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/decay-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La decadencia es el proceso de deterioro a lo largo del tiempo. En física, es la entropía —la segunda ley de la termodinámica establece que los sistemas aislados tienden a un desorden creciente. En química, es la descomposición molecular. En biología, es la senescencia celular y el fallo de los mecanismos de reparación. En infraestructura, es la acumulación de mantenimiento diferido.</p>
 <p>La decadencia sigue patrones predecibles. El decaimiento exponencial describe la vida media radiactiva. El decaimiento lineal describe el desgaste predecible. El decaimiento acelerado describe sistemas en los que el deterioro acelera el deterioro futuro: una grieta en el hormigón deja entrar agua, que a su vez ensancha la grieta.</p>
 <p>La decadencia no siempre es visible. El daño estructural puede acumularse bajo la superficie. Las relaciones pueden erosionarse sin un conflicto visible. Las bases de código pueden pudrirse sin fallos evidentes. Para cuando la decadencia se hace visible, por lo general lleva mucho tiempo ocurriendo.</p>
@@ -100,6 +100,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

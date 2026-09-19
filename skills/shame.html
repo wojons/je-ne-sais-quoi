@@ -14,7 +14,7 @@
   <h1>Shame</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/shame-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/shame-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/shame-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/shame-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Shame is a self-conscious emotion characterized by negative global self-evaluation. Unlike guilt, which focuses on a specific behavior ("I did something bad"), shame targets the self ("I am bad"). June Price Tangney's research demonstrated that shame-proneness correlates with anger, depression, and psychological distress, while guilt-proneness correlates with empathy and reparative behavior. Dearing and Tangney's longitudinal studies further showed that shame-prone individuals are more likely to externalize blame — shifting from self-loathing to hostility — because the global self-attack is too painful to sustain without redirecting it.</p>
 <p>Brené Brown's work popularized the clinical distinction for a broader audience: guilt is adaptive and useful ("I did something bad — and I can address it"), shame is corrosive and toxic ("I am bad — and I cannot fix what I am"). Brown's research on vulnerability identified shame as the primary barrier to connection, creativity, and authentic engagement. Her definition — "the intensely painful feeling or experience of believing we are flawed and therefore unworthy of acceptance and belonging" — is widely cited and accurate.</p>
 <p>The social-function theories (Gilbert, 2000; Leary, 2007) argue that shame evolved to enforce social norms. The threat of group exclusion motivated conformity. In this model, shame is functional — a regulatory mechanism that keeps individuals aligned with collective expectations. The behavioral markers include blushing, gaze aversion, slumped posture, and the desire to withdraw or disappear. Neuroimaging studies show activation in the anterior insula and dorsal anterior cingulate cortex — the brain's physical pain network — suggesting the brain processes social rejection and bodily injury through overlapping circuits.</p>
@@ -126,6 +126,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

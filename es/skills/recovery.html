@@ -14,7 +14,7 @@
   <h1>La recuperación</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/recovery-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/recovery-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/recovery-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/recovery-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La recuperación es el proceso de volver a un funcionamiento basal tras un periodo de estrés, esfuerzo o agotamiento. En términos fisiológicos, implica la activación del sistema nervioso parasimpático para contrarrestar la respuesta de estrés del sistema simpático —reduciendo el cortisol, disminuyendo la frecuencia cardíaca y restaurando el equilibrio homeostático.</p>
 <p>El sueño es el principal mecanismo de recuperación. Durante el sueño profundo, el sistema glinfático elimina los desechos metabólicos del cerebro. El tejido muscular se repara. Los sistemas hormonales se reajustan. Las 7-9 horas recomendadas permiten completar la arquitectura del ciclo del sueño necesaria para una restauración completa.</p>
 <p>Las técnicas de recuperación activa —ejercicio ligero, meditación, tiempo en la naturaleza— pueden acelerar el retorno al estado basal. Los periodos de descanso estratégicos durante el trabajo (la técnica Pomodoro, los ciclos ultradianos de 90 minutos) evitan que el agotamiento se acumule más allá de lo que el descanso puede revertir.</p>
@@ -95,6 +95,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

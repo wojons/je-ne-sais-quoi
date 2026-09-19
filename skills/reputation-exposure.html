@@ -14,7 +14,7 @@
   <h1>Reputation Exposure</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/reputation-exposure-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/reputation-exposure-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/reputation-exposure-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/reputation-exposure-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Reputation is the aggregate perception that others hold about an individual or entity. It functions as social capital — a form of credit that reduces friction in professional and personal interactions. A strong reputation lowers the cost of trust. A damaged reputation increases it.</p>
 <p>Reputation can be managed through consistent behavior, strategic communication, and professional branding. Social platforms have made reputation more visible and more volatile — a single event can shift public perception dramatically. This is called reputational risk.</p>
 <p>The rational approach to reputation is to treat it as an asset: build it deliberately, protect it carefully, and repair it quickly when damaged. The fear of judgment is understood as a social anxiety response — an overvaluation of others' opinions relative to one's own self-assessment. The corrective is to develop internal validation mechanisms and to recognize that most people are too focused on their own reputations to scrutinize yours.</p>
@@ -104,6 +104,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

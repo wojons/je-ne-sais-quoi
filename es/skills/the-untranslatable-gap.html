@@ -14,7 +14,7 @@
   <h1>La Brecha Intraducible</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-untranslatable-gap-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-untranslatable-gap-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-untranslatable-gap-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/the-untranslatable-gap-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La traducción es la conversión de significado de un idioma a otro. Una buena traducción logra la equivalencia semántica: se transfiere la misma información. Una traducción mejor logra la equivalencia pragmática: el mismo efecto en el oyente.</p>
 <p>La localización adapta el contenido al contexto cultural. Los colores, los símbolos, las referencias, el humor y las normas sociales difieren entre culturas. Los traductores profesionales trabajan con guías de estilo, consultores culturales y pruebas regionales para asegurar que el contenido sea recibido apropiadamente.</p>
 <p>La fluidez cultural significa entender no solo lo que las palabras significan, sino cuándo y cómo usarlas. Incluye el registro, el tempo, la comunicación indirecta, la conciencia de la jerarquía y las reglas no escritas.</p>
@@ -115,6 +115,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

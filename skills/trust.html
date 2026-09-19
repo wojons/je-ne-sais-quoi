@@ -14,7 +14,7 @@
   <h1>Trust</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/trust-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/trust-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/trust-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/trust-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Trust is a probabilistic assessment of another agent's reliability based on observed behavior. In game theory, it emerges through repeated cooperative interactions — the iterated prisoner's dilemma demonstrates that cooperative strategies (tit-for-tat, generous tit-for-tat) produce optimal outcomes over time. Trust is essentially a prediction: based on past behavior, this agent is likely to act in a way that does not harm me.</p>
 <p>Trust can be quantified. Reputation systems, credit scores, and Bayesian inference models all attempt to measure it. It is rational to trust when the expected value of trusting exceeds the expected value of not trusting, adjusted for risk tolerance.</p>
 <p>Trust violation triggers a Bayesian update — the prior is revised downward. The magnitude of revision depends on the severity and unexpectedness of the violation. Rebuilding trust requires consistent cooperative behavior over time to shift the posterior back toward trustworthiness.</p>
@@ -107,6 +107,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <h1>Presencia física</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/physical-presence-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/physical-presence-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/physical-presence-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/physical-presence-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La presencia física es el estado en que dos o más personas ocupan simultáneamente las mismas coordenadas geográficas. La coubicación permite una comunicación de mayor ancho de banda a través de múltiples canales simultáneos: verbal, paraverbal (tono, ritmo, volumen) y no verbal (postura, expresión facial, microexpresiones, gestos). La investigación en teoría de la comunicación muestra consistentemente que la interacción cara a cara transmite más información por unidad de tiempo que las formas mediadas.</p>
 <p>La proximidad posibilita el tacto, que libera oxitocina y reduce el cortisol. Un entorno físico compartido proporciona un contexto sensorial común que cimienta el entendimiento mutuo. El contacto visual activa el acoplamiento neuronal entre los interlocutores, sincronizando de forma medible la actividad cerebral.</p>
 <p>La comunicación por video se aproxima a algunos de estos canales, pero degrada otros: la latencia perturba el ritmo de la toma de turnos, el ángulo de la cámara elimina la paridad espacial, el tamaño de la pantalla comprime las señales periféricas. El audio por sí solo elimina aún más. El texto elimina casi todos los canales paraverbales y no verbales.</p>
@@ -116,6 +116,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

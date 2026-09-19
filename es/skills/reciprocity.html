@@ -14,7 +14,7 @@
   <h1>Reciprocidad</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/reciprocity-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/reciprocity-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/reciprocity-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="../assets/reciprocity-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La reciprocidad es una norma social que obliga a las personas a responder a una acción positiva con otra acción positiva. En la economía conductual, se modela como una estrategia en juegos repetidos: el toma y daca, donde la cooperación se encuentra con la cooperación y la deserción con la deserción, ha demostrado ser una estrategia eficaz en los dilemas del prisionero iterados.</p>
 <p>La norma de la reciprocidad cumple una función evolutiva: permite la cooperación entre individuos no emparentados, lo que aumenta la aptitud del grupo. La teoría del altruismo recíproco de Robert Trivers explica cómo los organismos pueden evolucionar para ayudar a quienes no son parientes cuando es probable que la ayuda sea devuelta.</p>
 <p>La reciprocidad crea capital social. Cada favor, regalo o acto de ayuda crea una obligación implícita a la que se puede recurrir más tarde. Esto crea redes de dependencia mutua que cohesionan a las comunidades. Marcel Mauss, en "El don", demostró que la entrega de regalos en las sociedades premodernas no era generosidad, sino un sistema de obligación que mantenía los lazos sociales.</p>
@@ -102,6 +102,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

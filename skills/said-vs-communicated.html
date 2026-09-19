@@ -14,7 +14,7 @@
   <h1>Said Vs Communicated</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/said-vs-communicated-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/said-vs-communicated-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/said-vs-communicated-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/said-vs-communicated-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Communication is the transfer of information from one agent to another. In the Shannon-Weaver model, a sender encodes a message, transmits it through a channel, and a receiver decodes it. Noise in the channel can distort the message. The meaning intended by the sender may not match the meaning constructed by the receiver.</p>
 <p>In pragmatics, speech act theory distinguishes between locution (the literal words), illocution (the intended force — promising, warning, insulting), and perlocution (the actual effect on the listener). Miscommunication occurs when illocution and perlocution diverge — the speaker intended one force, the listener received another.</p>
 <p>Intent does not equal impact. This is a foundational principle in communication studies. The speaker's intention is inaccessible to the listener, who must infer it from context, tone, history, relationship, power dynamics, and the words themselves. The same sentence — "That's an interesting approach" — can be genuine curiosity, condescension, or dismissal, depending on these variables.</p>
@@ -102,6 +102,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

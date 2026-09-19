@@ -14,7 +14,7 @@
   <h1>Tired Vs Done</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/tired-vs-done-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/tired-vs-done-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/tired-vs-done-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/tired-vs-done-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Tiredness is a physiological state indicating depleted energy reserves. It is temporary and reversible through rest. Symptoms include drowsiness, reduced cognitive speed, physical heaviness, and decreased motivation. After adequate sleep and recovery, baseline functioning returns.</p>
 <p>Burnout, by contrast, is a syndrome resulting from chronic workplace stress that has not been successfully managed. The WHO characterizes it by three dimensions: feelings of energy depletion or exhaustion, increased mental distance from one's job or feelings of negativism related to one's job, and reduced professional efficacy.</p>
 <p>The key distinction: tiredness is a battery problem. Burnout is a charger problem. One needs a refill. The other needs a repair. Sleep, nutrition, and rest resolve tiredness. Burnout requires changes to the environment, role, or relationship with work.</p>
@@ -93,6 +93,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

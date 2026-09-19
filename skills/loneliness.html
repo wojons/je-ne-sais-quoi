@@ -14,7 +14,7 @@
   <h1>Loneliness</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/loneliness-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/loneliness-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/loneliness-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/loneliness-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Loneliness is the subjective distress caused by a perceived gap between desired and actual social connection. It is not the same as being alone — many people are alone without being lonely, and many people are lonely without being alone. The distinction is well-established in social science: solitude is a neutral or positive state of being alone; loneliness is the suffering that arises from feeling that your need for connection is unmet.</p>
 <p>John Cacioppo's research at the University of Chicago established loneliness as a measurable phenomenon with significant health effects. His meta-analyses found that chronic loneliness has health effects comparable to smoking fifteen cigarettes a day. It correlates with elevated cortisol, cardiovascular disease, cognitive decline, reduced immune function, and increased mortality risk.</p>
 <p>Loneliness is not merely unpleasant. It is dangerous in the way that chronic stress is dangerous — silently, cumulatively, at the level of the body.</p>
@@ -125,6 +125,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

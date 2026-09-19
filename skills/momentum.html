@@ -14,7 +14,7 @@
   <h1>Momentum</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/momentum-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/momentum-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/momentum-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/momentum-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Momentum is mass times velocity. An object in motion tends to stay in motion unless acted upon by an external force. An object at rest tends to stay at rest. This is Newton's first law, and it applies metaphorically to human endeavor.</p>
 <p>In practice, momentum describes the self-reinforcing nature of ongoing activity. A person who exercises daily finds it easier to exercise tomorrow than someone who has not exercised in a month. A team that ships weekly finds it easier to ship next week than a team that has not shipped in a quarter. A writer who writes every day finds words more readily than one who has not written in weeks.</p>
 <p>Momentum has a complementary concept: inertia. Inertia is the resistance to starting. The first day of exercise is harder than the hundredth. The first line of code in a new project is harder than the thousandth. This asymmetry — starting is harder than continuing — is the practical reason momentum matters.</p>
@@ -101,6 +101,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

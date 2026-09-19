@@ -14,7 +14,7 @@
   <h1>Lies To Children</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/lies-to-children-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/lies-to-children-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/lies-to-children-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/lies-to-children-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>A lie-to-children is a pedagogical simplification — a model that is technically incorrect but developmentally necessary. The Bohr atom, with its neat electron orbits like planets around a sun, is a lie. Electrons do not orbit. They exist in probability clouds, smeared across space in ways that cannot be visualized without mathematics that would crush a child's capacity to build any mental model at all.</p>
 <p>The lie is not a failure of knowledge. It is a technology of transmission. You cannot teach quantum electrodynamics to an eight-year-old. You can teach them the solar-system atom. Later, when their mind is large enough, you replace the lie with a less-false model. Later still, you replace that one. The sequence is: simplification → complication → deeper complication → the recognition that all models are provisional.</p>
 <p>The educational theory behind this is Vygotsky's zone of proximal development — the distance between what a learner can do alone and what they can do with guidance. The lie-to-children operates inside that zone: it is the scaffold that holds the learner up until they can build their own understanding. Jerome Bruner's spiral curriculum proposes teaching the same concepts at increasing levels of complexity across years, each pass replacing the previous model with a more sophisticated one. The learner does not learn once. They learn, unlearn, and relearn.</p>
@@ -122,6 +122,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>

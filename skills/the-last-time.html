@@ -14,7 +14,7 @@
   <h1>The Last Time</h1>
 </header>
 <main class="sheet">
-  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-last-time-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-last-time-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-last-time-plate.webp" width="1024" height="1536" alt="Plate"></figure><figure class="slide"><img data-src="assets/the-last-time-comic.webp" width="1024" height="1536" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>A "last time" is the final occurrence of a repeated event — the last time you see someone, the last time you visit a place, the last time you perform an action. Logically, every repeated event has a final instance, just as every sequence has a final element.</p>
 <p>The challenge with last times is that they are usually not identifiable as last times when they occur. They are only recognizable retroactively. This creates a category of events that are only meaningful after they have ended — a temporal paradox where the significance is present but inaccessible until it is too late to act on it.</p>
 <p>Some last times are known in advance: the last day of a job, the last class before graduation, the final performance of a retiring athlete. These known last times carry anticipatory grief. But most last times are unknown: the last time a parent picks up a child, the last time friends gather before one moves away, the last conversation before someone dies. These unknown last times carry retroactive grief.</p>
@@ -99,6 +99,29 @@ document.querySelectorAll('.carousel').forEach(function (c) {
   });
   active();
 });
+</script>
+<script>
+(function () {
+  function hydrate(el) {
+    el.querySelectorAll('img[data-src]').forEach(function (i) {
+      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+    });
+  }
+  var targets = document.querySelectorAll('.card-strip, .carousel');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hydrate(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '400px' });
+    targets.forEach(function (t) {
+      io.observe(t);
+      ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (ev) {
+        t.addEventListener(ev, function () { hydrate(t); }, { passive: true, once: true });
+      });
+    });
+  } else {
+    targets.forEach(hydrate);
+  }
+})();
 </script>
 </body>
 </html>
