@@ -14,7 +14,7 @@
   <h1>The Turned Page</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-turned-page-plate.png" loading="lazy" alt=""><figcaption>The plate of The Turned Page</figcaption></figure><figure class="plate comic"><img src="assets/the-turned-page-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-turned-page-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-turned-page-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Logically, when someone you love has been wounded — illness, loss, injury done to them — the caring response is to help them recover. The logical model is a repair loop: identify the damage, apply help, monitor progress, celebrate resolution. The supporting logic is real as far as it goes. Guilt is an appropriate response to having fallen short, and it motivates repair behavior. Support-giving correlates with better outcomes in many contexts. Recovery is a legitimate clinical concept, and "processing" an injury — talking it through, deriving its meaning, working through each stage — is the culturally dominant model of getting better. On this model, a person who says "I've made my peace" while still showing effects of the wound might reasonably be checked on: gently, lovingly, but checked on — because unresolved wounds fester, and the loving friend errs on the side of engagement.</p>
 <p>Add the everyday versions — "I only say this because I care," "you can't heal what you won't face," "I'm worried about you" — and the logical picture is complete: love notices, love engages, love refuses to let a wound go unaddressed, and the person who keeps raising what the wounded person has set down is at worst a nuisance and usually a hero.</p>
 <p>This is all correct and all hollow. In this picture the wound is a task and love is task-management; the wound's owner is the<em>contractor</em> and the lover is the site supervisor, and the supervisor's anxiety is a form of diligence. What this picture cannot say is that the wound may have an owner who is <em>done</em> — not in denial, not repressing, but finished — and that beyond that line, every act of engagement is not care but trespass; that the supervisor's anxiety is not about the wound at all, and never was; that the urge to verify someone's healing is itself the reopening. It cannot explain the specific loneliness of the person whose friends need them to still be wounded in order to feel helpful — nor the counter-loneliness of the friend who can see the wound plainly and has decided, at real cost, to carry it silently. It cannot explain why the most loving act available is sometimes one that looks, from the outside, like doing nothing — and why that nothing is the hardest work in the whole territory.</p></section><section class="movement felt"><h2>II. The Felt Explanation</h2><p>The felt answer starts with a scar and a footbath. In the nineteenth book of the <em>Odyssey</em>, the old nurse Eurycleia washes a stranger's feet and recognizes the boar's scar — the stranger is Odysseus, home in disguise, and she drops his foot in shock and turns toward Penelope to tell her. Odysseus seizes her throat: <em>do you wish to be the ruin of me... hold your tongue.</em> And Eurycleia's answer is the portrait of this entire skill: "nothing can either bend or break me. I will hold my tongue like a stone or a piece of iron." Then, in the same breath, she offers him a <em>list</em> — the names of the household women who were disloyal during his absence, so he can punish them. He refuses it: "leave everything to heaven." This is the whole architecture in one scene. Eurycleia <em>knows</em> — has known the scar since she bathed him as a child; her silence is not ignorance but knowledge under a vow. And the list she offers is what guilt-driven fixing always is: a receipt, an accounting of wrongs, a plan of correction. He will not make the person he loves a witness in his case. Keeping the page turned is not innocence — it is <em>full sight held in silence</em>, and the refusing of lists.</p>
@@ -79,5 +79,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-turned-page">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <h1>La distancia</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/distance-plate.png" loading="lazy" alt=""><figcaption>La lámina de La distancia</figcaption></figure><figure class="plate comic"><img src="../assets/distance-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/distance-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/distance-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La distancia es la separación espacial medible entre dos puntos, expresada habitualmente en unidades: kilómetros, millas, millas náuticas para la distancia geográfica; milisegundos para la latencia de la red. La distancia física entre las personas afecta al coste y la frecuencia de la interacción, lo que a su vez afecta al mantenimiento de la relación. Una mayor distancia se correlaciona con una menor satisfacción en la relación y un mayor esfuerzo de comunicación.</p>
 <p>La tecnología de comunicación moderna compensa esto en parte al permitir la interacción sincrónica a cualquier distancia. Las videollamadas, la mensajería y las redes sociales mantienen la conexión con una fidelidad reducida. Los viajes en avión hacen posibles los reencuentros físicos a un coste mayor y con menor frecuencia.</p>
 <p>La distancia es, por tanto, una variable que modula la calidad de la relación a través de sus efectos en la frecuencia de la interacción, la riqueza de la comunicación y el gasto de recursos.</p>
@@ -103,5 +103,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/distance">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

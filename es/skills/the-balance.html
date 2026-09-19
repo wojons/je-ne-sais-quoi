@@ -14,7 +14,7 @@
   <h1>El Equilibrio</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/the-balance-plate.png" loading="lazy" alt=""><figcaption>La lámina de El Equilibrio</figcaption></figure><figure class="plate comic"><img src="../assets/the-balance-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-balance-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-balance-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El equilibrio es un estado en el que fuerzas opuestas son iguales y, por tanto, se anulan. La homeostasis es el modelo canónico: un sistema tiene un punto de ajuste, las desviaciones desencadenan una retroalimentación correctiva, y la regulación consiste en volver al punto de ajuste y mantenerse ahí. La conciliación de la vida laboral y personal es la traducción popular de la misma idea a la gestión del tiempo: asigna tus horas entre los dominios de una vida en una proporción sostenible, imaginada usualmente como cincuenta-cincuenta, audita la asignación periódicamente y reequilibra cuando las métricas se desvíen. En la negociación, el equilibrio significa partir la diferencia, cada lado cede la mitad para que el punto medio pueda considerarse justo. En la ética, aparece como moderación, la evitación de los extremos, el justo medio entendido como el promedio aritmético de demasiado y demasiado poco. En la teoría de la decisión, es la optimización bajo restricciones: sopesa los costes frente a los beneficios, elige la asignación con el mejor valor esperado y reevalúa cuando los datos de entrada cambien.</p>
 <p>El equilibrio, según este modelo, puede diseñarse. Define la proporción. Programa la revisión. Construye el colchón. El sistema se mantiene. Una vida puede auditarse como una cartera de inversiones, y un desequilibrio es un informe de variación a la espera de ser corregido por una hoja de cálculo.</p>
 <p>Esta es también la imagen del equilibrio en la que cree Thanos; y el hecho de que crea en ella es lo que lo convierte en un horror en lugar de un maestro. Su «equilibrio perfecto» es un asiento contable: la mitad de toda la vida en el universo, una simetría aritmética lograda en un solo chasquido de dedos, tras el cual el cosmos está «agradecido» y la cuenta se cierra para siempre. El equilibrio como contabilidad. El equilibrio como un logro de una sola vez. El equilibrio como algo que puedes terminar, y por tanto, algo que puedes hacerle a otras personas. El modelo lógico es el modelo de Thanos, disfrazado de folleto de bienestar. Es el punto medio elevado a violencia cósmica.</p>
@@ -74,5 +74,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-balance">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

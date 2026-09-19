@@ -14,7 +14,7 @@
   <h1>El duelo</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/grief-plate.png" loading="lazy" alt=""><figcaption>La lámina de El duelo</figcaption></figure><figure class="plate comic"><img src="../assets/grief-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/grief-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/grief-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El duelo es una respuesta psicológica y fisiológica natural a la pérdida. El modelo de Kübler-Ross describe cinco etapas: negación, ira, negociación, depresión y aceptación. La investigación moderna reconoce el duelo como un proceso no lineal que varía significativamente entre individuos.</p>
 <p>Neurológicamente, el duelo activa las mismas regiones cerebrales asociadas con el dolor físico: la corteza cingulada anterior y la sustancia gris periacueductal. Esto explica la sensación física de la pérdida: opresión en el pecho, fatiga, alteración del sueño.</p>
 <p>El trastorno de duelo complicado se diagnostica cuando los síntomas agudos del duelo persisten más de doce meses sin mitigarse. Los enfoques de tratamiento incluyen la terapia de duelo, la terapia cognitivo-conductual y la reconstrucción del significado.</p>
@@ -195,5 +195,25 @@ desde fuera?</p></section>
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/grief">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

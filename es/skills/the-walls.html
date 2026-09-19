@@ -14,7 +14,7 @@
   <h1>Los Muros</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/the-walls-plate.png" loading="lazy" alt=""><figcaption>La lámina de Los Muros</figcaption></figure><figure class="plate comic"><img src="../assets/the-walls-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-walls-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-walls-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Los mecanismos de defensa son estrategias psicológicas inconscientes utilizadas para proteger al yo de la ansiedad, la vergüenza y la amenaza percibida. Anna Freud los catalogó en 1936: negación, proyección, racionalización, intelectualización, desplazamiento, formación reactiva. La lista ha crecido. Los mecanismos no son patológicos en sí mismos; todo el mundo los utiliza. Se vuelven problemáticos cuando son rígidos, omnipresentes e impiden al individuo relacionarse con la realidad o formar vínculos estrechos.</p>
 <p>En la teoría del apego, el estilo de apego evitativo se caracteriza por la supresión sistemática de las necesidades de apego. La persona con apego evitativo aprendió tempranamente que la vulnerabilidad se enfrenta con rechazo o indiferencia. La respuesta adaptativa es la autosuficiencia: no necesitar, no buscar, no mostrar. De adultos, mantienen la distancia emocional a través de diversas estrategias: adicción al trabajo, promiscuidad sin intimidad, relaciones que se mantienen superficiales, un autoconcepto construido sobre la independencia en lugar de la conexión.</p>
 <p>En psicología social, la «máscara» o «persona» es el yo público que se presenta al mundo. El modelo dramatúrgico de Erving Goffman enmarca la vida social como una representación: presentamos versiones de nosotros mismos calibradas para nuestra audiencia. La máscara no es un engaño, es competencia social. Pero cuando la máscara se convierte en el único rostro que el portador conoce, la brecha entre el yo público y el yo privado se convierte en una fuente de angustia. La persona detrás de la máscara puede atrofiarse por desuso.</p>
@@ -100,5 +100,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-walls">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

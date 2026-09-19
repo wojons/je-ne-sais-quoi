@@ -14,7 +14,7 @@
   <h1>El Ojo Invisible</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/the-invisible-eye-plate.png" loading="lazy" alt=""><figcaption>La lámina de El Ojo Invisible</figcaption></figure><figure class="plate comic"><img src="../assets/the-invisible-eye-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-invisible-eye-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-invisible-eye-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La vigilancia es el monitoreo del comportamiento, las actividades o la información con el fin de recopilar información, influir, gestionar o dirigir. Opera a través de la observación directa, la recopilación de datos y el análisis de patrones.</p>
 <p>El panóptico —el diseño de prisión de Jeremy Bentham del siglo XVIII y la posterior metáfora de Michel Foucault en Vigilar y castigar— describe un sistema en el que la posibilidad de ser observado cambia el comportamiento incluso cuando nadie está observando realmente. Los prisioneros no pueden saber cuándo están siendo observados, por lo que deben asumir una visibilidad constante. Esto internaliza al guardián. Los vigilados se convierten en sus propios monitores.</p>
 <p>Las políticas de retención de datos determinan cuánto tiempo se almacena la información. La mayoría de las plataformas digitales retienen los datos de los usuarios indefinidamente. Marcos legales como el RGPD en Europa han establecido «el derecho al olvido» como un principio, pero su aplicación es parcial y técnica. Los datos persisten en copias de seguridad, en registros del sistema, en archivos de terceros.</p>
@@ -104,5 +104,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-invisible-eye">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

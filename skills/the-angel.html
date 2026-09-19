@@ -14,7 +14,7 @@
   <h1>The Angel</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-angel-plate.png" loading="lazy" alt=""><figcaption>The plate of The Angel</figcaption></figure><figure class="plate comic"><img src="assets/the-angel-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-angel-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-angel-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Conscience is well mapped by modern research, and the map is genuinely useful. Developmental psychology describes it as a capacity that matures through stages — Kohlberg's ladder from obedience and self-interest through law-and-order to post-conventional principles held against the crowd, with Gilligan's correction that the relational voice, the care that keeps everyone in the web alive, is not a lower stage but a different mature intelligence. Social intuitionism (Haidt) shows moral judgment arriving first as fast, affect-laden intuition, with reasoning arriving afterward as its lawyer — moral dumbfounding demonstrates people who hold a verdict they cannot justify. Neuroscience localizes the intuition: Damasio's somatic marker hypothesis shows the body flagging imagined options as good or bad before deliberative analysis completes — in the Iowa Gambling Task, healthy subjects begin choosing advantageously and generate anticipatory skin-conductance responses before they can state the strategy, while patients with ventromedial prefrontal damage keep choosing badly even after they know the correct rule, and endorse sacrificing persons for totals on moral dilemmas that intact people refuse.</p>
 <p>Internal Family Systems (Schwartz) models the harsh inner voice not as truth-teller but as a protector part that took a harsh job — the critic attacks you preemptively to keep you safe from rejection — while beneath the parts sits an undamaged Self whose leadership displays the eight C's: curiosity, compassion, calm, clarity, courage, confidence, creativity, connectedness. Self-compassion research (Neff) shows the drill-sergeant model is empirically inverted: people induced to treat a moral transgression with self-compassion show greater motivation to make amends and not repeat it than those induced to self-criticize; shame does not fuel repair, it extinguishes it. Moral elevation (Haidt) describes the warm, expanding chest feeling of witnessing moral beauty, which measurably increases helping behavior — prosocial contagion. Moral licensing (Monin &amp; Miller) shows past good deeds are spent as currency for later indulgences. And the hindsight literature — Pillemer's thousand-plus interviews with Americans over sixty-five, Ware's palliative-care records, Gilovich and Medvec's regret studies — converges: what the dying and the very old regret is not the risk taken that failed but the risk never taken, the suppressed voice, the neglected relationship, the unlived true self; their single biggest reported regret is having worried too much.</p>
 <p>The angel can therefore be modeled as a faculty: an intuition-first, reason-audited advocate for the acts the long-term self will be glad it performed; audible through somatic markers and chest warmth; corrupted by licensing, rationalization, and the internalized aggressor; strengthened by heedful practice and verified by hindsight. It can be described as a system with inputs (values, memory, body state), outputs (vetoes, promptings, settled feelings), and failure modes (superego contamination, people-pleasing, moral licensing, post-hoc lawyering).</p>
@@ -76,5 +76,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-angel">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

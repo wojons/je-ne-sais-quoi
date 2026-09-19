@@ -14,7 +14,7 @@
   <h1>La soledad</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/loneliness-plate.png" loading="lazy" alt=""><figcaption>La lámina de La soledad</figcaption></figure><figure class="plate comic"><img src="../assets/loneliness-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/loneliness-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/loneliness-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La soledad es el malestar subjetivo causado por una brecha percibida entre la conexión social deseada y la real. No es lo mismo que estar solo —muchas personas están solas sin sentirse solas, y muchas personas se sienten solas sin estar solas—. La distinción está bien establecida en las ciencias sociales: la soledad buscada es un estado neutro o positivo de estar a solas; la soledad es el sufrimiento que surge de sentir que tu necesidad de conexión no está satisfecha.</p>
 <p>La investigación de John Cacioppo en la Universidad de Chicago estableció la soledad como un fenómeno medible con efectos significativos en la salud. Sus metaanálisis encontraron que la soledad crónica tiene efectos en la salud comparables a fumar quince cigarrillos al día. Se correlaciona con niveles elevados de cortisol, enfermedades cardiovasculares, deterioro cognitivo, una función inmunológica reducida y un mayor riesgo de mortalidad.</p>
 <p>La soledad no es meramente desagradable. Es peligrosa de la misma manera que lo es el estrés crónico: silenciosamente, acumulativamente, a nivel del cuerpo.</p>
@@ -106,5 +106,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/loneliness">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

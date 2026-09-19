@@ -14,7 +14,7 @@
   <h1>Said Vs Communicated</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/said-vs-communicated-plate.png" loading="lazy" alt=""><figcaption>The plate of Said Vs Communicated</figcaption></figure><figure class="plate comic"><img src="assets/said-vs-communicated-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/said-vs-communicated-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/said-vs-communicated-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Communication is the transfer of information from one agent to another. In the Shannon-Weaver model, a sender encodes a message, transmits it through a channel, and a receiver decodes it. Noise in the channel can distort the message. The meaning intended by the sender may not match the meaning constructed by the receiver.</p>
 <p>In pragmatics, speech act theory distinguishes between locution (the literal words), illocution (the intended force — promising, warning, insulting), and perlocution (the actual effect on the listener). Miscommunication occurs when illocution and perlocution diverge — the speaker intended one force, the listener received another.</p>
 <p>Intent does not equal impact. This is a foundational principle in communication studies. The speaker's intention is inaccessible to the listener, who must infer it from context, tone, history, relationship, power dynamics, and the words themselves. The same sentence — "That's an interesting approach" — can be genuine curiosity, condescension, or dismissal, depending on these variables.</p>
@@ -83,5 +83,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/said-vs-communicated">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

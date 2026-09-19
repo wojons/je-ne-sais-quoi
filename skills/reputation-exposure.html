@@ -14,7 +14,7 @@
   <h1>Reputation Exposure</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/reputation-exposure-plate.png" loading="lazy" alt=""><figcaption>The plate of Reputation Exposure</figcaption></figure><figure class="plate comic"><img src="assets/reputation-exposure-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/reputation-exposure-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/reputation-exposure-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Reputation is the aggregate perception that others hold about an individual or entity. It functions as social capital — a form of credit that reduces friction in professional and personal interactions. A strong reputation lowers the cost of trust. A damaged reputation increases it.</p>
 <p>Reputation can be managed through consistent behavior, strategic communication, and professional branding. Social platforms have made reputation more visible and more volatile — a single event can shift public perception dramatically. This is called reputational risk.</p>
 <p>The rational approach to reputation is to treat it as an asset: build it deliberately, protect it carefully, and repair it quickly when damaged. The fear of judgment is understood as a social anxiety response — an overvaluation of others' opinions relative to one's own self-assessment. The corrective is to develop internal validation mechanisms and to recognize that most people are too focused on their own reputations to scrutinize yours.</p>
@@ -85,5 +85,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/reputation-exposure">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

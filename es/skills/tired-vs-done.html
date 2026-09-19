@@ -14,7 +14,7 @@
   <h1>Cansado frente a acabado</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/tired-vs-done-plate.png" loading="lazy" alt=""><figcaption>La lámina de Cansado frente a acabado</figcaption></figure><figure class="plate comic"><img src="../assets/tired-vs-done-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/tired-vs-done-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/tired-vs-done-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El cansancio es un estado fisiológico que indica una merma en las reservas de energía. Es temporal y reversible mediante el descanso. Sus síntomas incluyen somnolencia, velocidad cognitiva reducida, pesadez física y una disminución de la motivación. Tras un sueño y una recuperación adecuados, se restablece el funcionamiento basal.</p>
 <p>El agotamiento profesional, por el contrario, es un síndrome resultante del estrés laboral crónico que no se ha manejado con éxito. La OMS lo caracteriza por tres dimensiones: sentimientos de falta de energía o extenuación, mayor distancia mental con respecto al trabajo o sentimientos de negativismo relacionados con el trabajo, y una eficacia profesional reducida.</p>
 <p>La distinción clave: el cansancio es un problema de batería. El agotamiento profesional es un problema de cargador. Uno necesita una recarga. El otro, una reparación. El sueño, la nutrición y el descanso resuelven el cansancio. El agotamiento profesional requiere cambios en el entorno, el rol o la relación con el trabajo.</p>
@@ -74,5 +74,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/tired-vs-done">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

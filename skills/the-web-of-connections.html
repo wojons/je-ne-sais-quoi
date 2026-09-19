@@ -14,7 +14,7 @@
   <h1>The Web Of Connections</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-web-of-connections-plate.png" loading="lazy" alt=""><figcaption>The plate of The Web Of Connections</figcaption></figure><figure class="plate comic"><img src="assets/the-web-of-connections-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-web-of-connections-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-web-of-connections-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Logically, human connection is a network phenomenon, and the science is genuine. Social network analysis maps people as nodes and relationships as edges, and it finds real structure: Granovetter showed that acquaintances — "not a friend, an acquaintance" was the most common answer among job-finders — carry information that close ties cannot, because close friends move in the same circles and already know what you know. Christakis and Fowler found behaviors propagating through networks to three degrees of separation. Dunbar proposed that stable human groups nest in layers of roughly 5, 15, 50, and 150, each depth bought with a time budget, which means depth is allocated, not distributed. The looking-glass self adds that identity is socially formed: we imagine how we appear to others, imagine their judgment, and feel the resulting pride or mortification.</p>
 <p>Add the everyday version — "no man is an island," "it takes a village," "we're all connected" — and the logical picture is complete: individuals exist first, connections form between them, and the connections matter because they carry resources, information, and influence between the pre-existing nodes.</p>
 <p>This is all correct and all hollow. In this picture you are a dot and the relations are lines drawn to other dots; the dot remains the unit, and the lines are its assets. The account of the self that results is the mirror: other people reflect you, evaluate you, shape you — from outside. What this picture cannot say, because its unit of analysis forbids it, is that the dot might have nothing inside it at all; that the lines are not attached to the self but constitutive of it; that the mirror is not the web. It cannot explain why damaging a relation you never think about damages <em>you</em>, in a place you cannot point to. It cannot explain the reports of people who have stood at the edge of death and found, laid out all at once, no possessions and no rank — only a fabric, with themselves discovered as one of its threads.</p></section><section class="movement felt"><h2>II. The Felt Explanation</h2><p>Start with the proverb, because the proverb is a metaphysics wearing the clothes of a nicety. <em>Umuntu ngumuntu ngabantu</em> — "a person is a person through other persons." The doubled word is load-bearing: subject and predicate are the same word, so the sentence does not say a person is <em>helped by</em> other persons, or <em>shaped by</em> them, or <em>supported by</em> them — all of which keep the person prior and the persons auxiliary. It predicates personhood <em>through</em> persons, the way a sentence's meaning is not helped by its words but <em>is</em> them. Mbiti's formulation inverts Descartes at the root: "I am because we are, and since we are, therefore I am" — relation as the ground of existence, not an inference from it. And the tradition carries its own corrective against the dissolving reading: Tutu's person with ubuntu stands on "a proper self-assurance that comes from knowing that he or she belongs in a greater whole," and Mandela says plainly that ubuntu "does not mean that people should not address themselves." Eze holds both ends at once: individual and community are "engaged in contemporaneous formation," in "relation <em>and distance</em>." The web makes you <em>more</em> of a self, not less of one — belonging produces the firmest self there is.</p>
@@ -73,5 +73,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-web-of-connections">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

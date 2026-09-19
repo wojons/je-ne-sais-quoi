@@ -14,7 +14,7 @@
   <h1>Exposición y reputación</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/reputation-exposure-plate.png" loading="lazy" alt=""><figcaption>La lámina de Exposición y reputación</figcaption></figure><figure class="plate comic"><img src="../assets/reputation-exposure-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/reputation-exposure-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/reputation-exposure-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La reputación es la percepción agregada que los demás tienen sobre un individuo o entidad. Funciona como capital social —una forma de crédito que reduce la fricción en las interacciones profesionales y personales. Una reputación sólida reduce el coste de la confianza. Una reputación dañada lo aumenta.</p>
 <p>La reputación puede gestionarse mediante un comportamiento coherente, una comunicación estratégica y una marca profesional. Las plataformas sociales han hecho la reputación más visible y más volátil: un solo acontecimiento puede cambiar drásticamente la percepción pública. Esto se denomina riesgo reputacional.</p>
 <p>El enfoque racional de la reputación consiste en tratarla como un activo: construirla deliberadamente, protegerla con esmero y repararla con rapidez cuando resulte dañada. El miedo al juicio se entiende como una respuesta de ansiedad social: una sobrevaloración de las opiniones ajenas en relación con la autoevaluación. El correctivo es desarrollar mecanismos de validación interna y reconocer que la mayoría de la gente está demasiado centrada en su propia reputación como para escrutar la tuya.</p>
@@ -85,5 +85,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/reputation-exposure">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

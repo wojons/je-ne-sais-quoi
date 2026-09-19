@@ -14,7 +14,7 @@
   <h1>Brand</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/brand-plate.png" loading="lazy" alt=""><figcaption>The plate of Brand</figcaption></figure><figure class="plate comic"><img src="assets/brand-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/brand-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/brand-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>A brand is a name, mark, or identity that distinguishes one seller's goods from another's. It is an intangible asset. Companies invest in it through advertising, design, packaging, and customer experience, and it returns value in the form of brand equity — the premium customers will pay for a product with the brand attached over an identical product without it.</p>
 <p>There is a well-developed machinery for describing this. Positioning: the brand occupies a distinct place in the customer's mind, established against competitors (Ries and Trout). Differentiation: the brand gives customers a reason to choose it over functionally identical alternatives. Signaling theory (Spence): the brand communicates quality information the customer cannot verify directly — the logo is a credible signal because the company has invested in it. Economic moats (Buffett): a brand is a moat that protects margins from competition, because competitors can copy features but cannot easily copy the accumulated trust and awareness the brand holds. Switching costs and network effects reinforce the moat. Veblen goods: some brands sell status itself, and demand increases with price. Customer lifetime value: the brand converts one-time buyers into repeat buyers.</p>
 <p>The logical model is complete and mostly correct. A brand is an asset that lets a company charge more than cost-plus-margin for a long time, because the competition cannot replicate what the company has accumulated in people's heads.</p>
@@ -70,5 +70,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/brand">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

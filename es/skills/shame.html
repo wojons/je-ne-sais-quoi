@@ -14,7 +14,7 @@
   <h1>Vergüenza</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/shame-plate.png" loading="lazy" alt=""><figcaption>La lámina de Vergüenza</figcaption></figure><figure class="plate comic"><img src="../assets/shame-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/shame-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/shame-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La vergüenza es una emoción autoconsciente caracterizada por una autoevaluación global negativa. A diferencia de la culpa, que se centra en un comportamiento específico («hice algo malo»), la vergüenza apunta al yo («soy malo»). La investigación de June Price Tangney demostró que la propensión a la vergüenza se correlaciona con la ira, la depresión y el malestar psicológico, mientras que la propensión a la culpa se correlaciona con la empatía y el comportamiento reparador. Los estudios longitudinales de Dearing y Tangney mostraron además que los individuos propensos a la vergüenza son más propensos a externalizar la culpa —pasando del autodesprecio a la hostilidad— porque el ataque global al yo es demasiado doloroso para sostenerlo sin redirigirlo.</p>
 <p>El trabajo de Brené Brown popularizó la distinción clínica para un público más amplio: la culpa es adaptativa y útil («hice algo malo, y puedo solucionarlo»), la vergüenza es corrosiva y tóxica («soy malo, y no puedo arreglar lo que soy»). La investigación de Brown sobre la vulnerabilidad identificó la vergüenza como la barrera principal para la conexión, la creatividad y el compromiso auténtico. Su definición —«el sentimiento o la experiencia intensamente dolorosa de creer que somos defectuosos y, por lo tanto, indignos de aceptación y pertenencia»— es ampliamente citada y precisa.</p>
 <p>Las teorías de la función social (Gilbert, 2000; Leary, 2007) argumentan que la vergüenza evolucionó para hacer cumplir las normas sociales. La amenaza de la exclusión del grupo motivaba la conformidad. En este modelo, la vergüenza es funcional, un mecanismo regulador que mantiene a los individuos alineados con las expectativas colectivas. Los marcadores conductuales incluyen el rubor, la aversión de la mirada, la postura encorvada y el deseo de retraerse o desaparecer. Los estudios de neuroimagen muestran activación en la ínsula anterior y la corteza cingulada anterior dorsal —la red de dolor físico del cerebro—, lo que sugiere que el cerebro procesa el rechazo social y la lesión corporal a través de circuitos superpuestos.</p>
@@ -107,5 +107,25 @@ Respuesta B: «Soy una mala persona».</p>
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/shame">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

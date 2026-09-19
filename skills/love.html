@@ -14,7 +14,7 @@
   <h1>Love</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/love-plate.png" loading="lazy" alt=""><figcaption>The plate of Love</figcaption></figure><figure class="plate comic"><img src="assets/love-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="10"><div class="ctrack"><figure class="slide"><img src="assets/love-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/love-comic.webp" loading="lazy" alt="Six panels"></figure><figure class="slide"><img src="assets/love-egyptian.webp" loading="lazy" alt="Egyptian"></figure><figure class="slide"><img src="assets/love-manga.webp" loading="lazy" alt="Manga"></figure><figure class="slide"><img src="assets/love-ukiyoe.webp" loading="lazy" alt="Ukiyo-e"></figure><figure class="slide"><img src="assets/love-persian.webp" loading="lazy" alt="Persian"></figure><figure class="slide"><img src="assets/love-mesoamerican.webp" loading="lazy" alt="Codex"></figure><figure class="slide"><img src="assets/love-shanshui.webp" loading="lazy" alt="Ink-wash"></figure><figure class="slide"><img src="assets/love-byzantine.webp" loading="lazy" alt="Byzantine"></figure><figure class="slide"><img src="assets/love-adinkra.webp" loading="lazy" alt="Adinkra"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button><button type="button" data-i="2">Egyptian</button><button type="button" data-i="3">Manga</button><button type="button" data-i="4">Ukiyo-e</button><button type="button" data-i="5">Persian</button><button type="button" data-i="6">Codex</button><button type="button" data-i="7">Ink-wash</button><button type="button" data-i="8">Byzantine</button><button type="button" data-i="9">Adinkra</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Love is a positive emotional and physiological state associated with attachment to another person. Attachment theory classifies relational bonds as secure, anxious, or avoidant, shaped by early caregiving patterns. Sternberg's triangular model decomposes love into three components — intimacy, passion, and commitment — producing seven combinations, from liking (intimacy alone) to consummate love (all three). Neurochemically, pair bonding involves oxytocin and vasopressin; early-stage romantic love elevates dopamine and norepinephrine, which explains the obsessive focus of infatuation and its typical decay over 12 to 24 months. Social exchange theory models relationships as the accounting of rewards against costs, with satisfaction predicted by comparison levels and alternatives. Maintenance behaviors — expressions of affection, shared rituals, self-disclosure — correlate with relationship longevity.</p>
 <p>Love can therefore be predicted, measured, and managed. Sustained love is a matter of maintaining positive exchange ratios, keeping commitment mechanisms active, and managing the natural decay of passion through novelty and shared goals.</p>
 <p>That explanation is clean, logical, correct, and completely hollow. It describes love as a system with inputs and outputs, a bond with decay rates, an account with ledgers. It can tell you why love starts and why love ends and not one thing about what love is while you are inside it. It does not touch the strangeness at the center: that love holds <em>because</em> it does not grip, that what accumulates between two people is not claims but shared time made into structure, that the deepest thing two people can build is a root system under each other's freedom. The logical model knows everything about attachment and nothing about <em>libertad con raíz</em> — freedom with roots.</p></section><section class="movement felt"><h2>II. The Felt Explanation</h2><p>Love is not a feeling you have. Feelings arrive and leave — weather over a house. Love is the house. It is a structure two people keep building out of time already lived, and it has one impossible property that every logical model misses: it holds <em>by not holding</em>. Grip it and it dies in your hands. The roots that make it strong grow downward, in the dark, silently — and roots do not clench the soil. They hold the tree by being everywhere in it, not by closing around it.</p>
@@ -72,5 +72,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/love">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

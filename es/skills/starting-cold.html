@@ -14,7 +14,7 @@
   <h1>Empezar en frío</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/starting-cold-plate.png" loading="lazy" alt=""><figcaption>La lámina de Empezar en frío</figcaption></figure><figure class="plate comic"><img src="../assets/starting-cold-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/starting-cold-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/starting-cold-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Empezar una tarea requiere superar una energía de activación inicial —un concepto tomado de la química, donde una reacción necesita un aporte de energía antes de poder proceder. En psicología, esto se corresponde con la iniciación de la tarea, una función ejecutiva. La procrastinación es la brecha entre la intención y la acción, a menudo atribuida al descuento temporal (valorar la comodidad presente por encima de la recompensa futura), al perfeccionismo (el miedo a producir un trabajo de calidad inferior) o a la ansiedad ante el alcance desconocido de la tarea.</p>
 <p>Dividir las tareas en pasos más pequeños reduce la complejidad percibida. La regla de los dos minutos sugiere empezar con cualquier acción que lleve menos de dos minutos. Las técnicas Pomodoro reducen el tamaño percibido del compromiso. Una vez que se ha empezado, el impulso —también llamado efecto Zeigarnik, según el cual las tareas incompletas crean una tensión cognitiva que impulsa su finalización— hace que continuar sea más fácil que iniciar.</p>
 <p>Esto es preciso. Describe un sistema con entradas y salidas, barreras y facilitadores. Una persona es un sistema. Una tarea es una entrada. La energía de activación es una barrera. Las técnicas son optimizaciones. La explicación funciona.</p>
@@ -79,5 +79,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/starting-cold">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

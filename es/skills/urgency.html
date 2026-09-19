@@ -14,7 +14,7 @@
   <h1>Urgencia</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/urgency-plate.png" loading="lazy" alt=""><figcaption>La lámina de Urgencia</figcaption></figure><figure class="plate comic"><img src="../assets/urgency-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/urgency-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/urgency-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La urgencia es una propiedad de las tareas o situaciones en las que el tiempo hasta una fecha límite o un evento crítico es corto en relación con el trabajo requerido. Puede cuantificarse: una tarea con un plazo de dos horas y un tiempo estimado de finalización de una hora y cincuenta minutos tiene mayor urgencia que la misma tarea con un plazo de dos semanas.</p>
 <p>La urgencia es distinta de la importancia. La Matriz de Eisenhower separa las tareas en cuatro cuadrantes basados en la urgencia y la importancia como ejes independientes. Una tarea puede ser urgente pero no importante (algunas llamadas telefónicas), importante pero no urgente (ejercicio, mantenimiento de relaciones), ambas cosas (una emergencia médica) o ninguna (la televisión).</p>
 <p>La urgencia crea respuestas fisiológicas: cortisol elevado, enfoque atencional reducido, aumento del ritmo cardíaco. Son medibles. La presión del tiempo degrada ciertas funciones cognitivas —el razonamiento complejo, el pensamiento creativo— mientras que potencia otras —la velocidad de ejecución, la detección de amenazas—.</p>
@@ -82,5 +82,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/urgency">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

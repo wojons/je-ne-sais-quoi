@@ -14,7 +14,7 @@
   <h1>Ambiente</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/environment-plate.png" loading="lazy" alt=""><figcaption>La lámina de Ambiente</figcaption></figure><figure class="plate comic"><img src="../assets/environment-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/environment-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/environment-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El ambiente se refiere a las condiciones físicas, sensoriales y espaciales que rodean a una persona. La psicología ambiental demuestra que el entorno afecta sistemáticamente a la cognición, la emoción y el comportamiento. La calidad de la iluminación influye en el estado de ánimo y el nivel de alerta. Los niveles de ruido afectan a la concentración y al estrés. La distribución espacial influye en el comportamiento social: los espacios abiertos aumentan la interacción pero reducen la privacidad, los espacios cerrados fomentan la profundidad pero limitan la apertura.</p>
 <p>Los entornos naturales reducen el cortisol y mejoran la restauración cognitiva. Los principios del diseño biofílico —plantas, materiales naturales, fuentes de agua— mejoran de forma medible el bienestar. La temperatura, la calidad del aire, la altura del techo y la densidad espacial tienen efectos documentados en la toma de decisiones, la creatividad y la dinámica interpersonal. La misma conversación mantenida en diferentes ambientes produce resultados mediblemente distintos.</p>
 <p>El diseño ambiental es, por lo tanto, una palanca para optimizar la experiencia humana en los espacios construidos.</p>
@@ -98,5 +98,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/environment">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

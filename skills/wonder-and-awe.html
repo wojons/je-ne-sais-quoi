@@ -14,7 +14,7 @@
   <h1>Wonder And Awe</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/wonder-and-awe-plate.png" loading="lazy" alt=""><figcaption>The plate of Wonder And Awe</figcaption></figure><figure class="plate comic"><img src="assets/wonder-and-awe-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/wonder-and-awe-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/wonder-and-awe-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Wonder and awe are positive emotions characterized by the perception of vastness and a need for cognitive accommodation. Dacher Keltner and Jonathan Haidt's prototypical model identifies two core features: perceived vastness (physical, social, or conceptual magnitude) and accommodation (the need to update one's mental structures to incorporate the experience). The accommodation component is critical — awe is not merely encountering something large, but encountering something that forces a revision of one's mental models.</p>
 <p>Awe produces measurable physiological responses: piloerection (goosebumps), lacrimation (tears), a lump or tightening sensation in the throat, and sometimes what researchers call "the chills." The vagus nerve is implicated — awe is one of the few experiences that reliably activates parasympathetic response alongside arousal. Heart rate variability increases. Breathing deepens and slows.</p>
 <p>Evolutionarily, awe likely served social binding functions. It draws attention to things larger than the self and promotes prosocial behavior. Keltner's lab found that awe is one of the strongest predictors of reduced pro-inflammatory IL-6 levels — the body literally becomes less inflamed in the presence of vastness. Michelle Shiota's work shows that awe reduces reliance on existing schemas and increases cognitive flexibility. Piercarlo Valdesolo's research demonstrates that awe increases perceived time availability and life satisfaction.</p>
@@ -91,5 +91,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/wonder-and-awe">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

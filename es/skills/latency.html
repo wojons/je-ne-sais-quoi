@@ -14,7 +14,7 @@
   <h1>Latencia</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/latency-plate.png" loading="lazy" alt=""><figcaption>La lámina de Latencia</figcaption></figure><figure class="plate comic"><img src="../assets/latency-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/latency-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/latency-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La latencia es el retardo entre una petición y una respuesta. En el ámbito de las redes, se mide en milisegundos — el tiempo que tarda un paquete en viajar desde el origen hasta el destino y volver. En informática, es el tiempo que transcurre entre una entrada y su correspondiente salida.</p>
 <p>La latencia es distinta del ancho de banda. El ancho de banda es la cantidad de datos que pueden transferirse simultáneamente. La latencia es el tiempo que tarda en llegar el primer bit. Se puede tener un gran ancho de banda y una alta latencia (un camión lleno de discos duros) o un bajo ancho de banda y una baja latencia (un telégrafo).</p>
 <p>Los humanos perciben la latencia en distintos umbrales. Por debajo de 100 ms, las interacciones se sienten instantáneas. Entre 100 ms y 300 ms, se percibe un ligero retardo. Por encima de 300 ms, el retardo se experimenta conscientemente. Por encima de un segundo, el retardo es disruptivo. Por encima de diez segundos, la atención se dispersa.</p>
@@ -81,5 +81,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/latency">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

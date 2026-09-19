@@ -14,7 +14,7 @@
   <h1>Momentum</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/momentum-plate.png" loading="lazy" alt=""><figcaption>The plate of Momentum</figcaption></figure><figure class="plate comic"><img src="assets/momentum-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/momentum-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/momentum-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Momentum is mass times velocity. An object in motion tends to stay in motion unless acted upon by an external force. An object at rest tends to stay at rest. This is Newton's first law, and it applies metaphorically to human endeavor.</p>
 <p>In practice, momentum describes the self-reinforcing nature of ongoing activity. A person who exercises daily finds it easier to exercise tomorrow than someone who has not exercised in a month. A team that ships weekly finds it easier to ship next week than a team that has not shipped in a quarter. A writer who writes every day finds words more readily than one who has not written in weeks.</p>
 <p>Momentum has a complementary concept: inertia. Inertia is the resistance to starting. The first day of exercise is harder than the hundredth. The first line of code in a new project is harder than the thousandth. This asymmetry — starting is harder than continuing — is the practical reason momentum matters.</p>
@@ -82,5 +82,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/momentum">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

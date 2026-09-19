@@ -14,7 +14,7 @@
   <h1>Loneliness</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/loneliness-plate.png" loading="lazy" alt=""><figcaption>The plate of Loneliness</figcaption></figure><figure class="plate comic"><img src="assets/loneliness-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/loneliness-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/loneliness-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Loneliness is the subjective distress caused by a perceived gap between desired and actual social connection. It is not the same as being alone — many people are alone without being lonely, and many people are lonely without being alone. The distinction is well-established in social science: solitude is a neutral or positive state of being alone; loneliness is the suffering that arises from feeling that your need for connection is unmet.</p>
 <p>John Cacioppo's research at the University of Chicago established loneliness as a measurable phenomenon with significant health effects. His meta-analyses found that chronic loneliness has health effects comparable to smoking fifteen cigarettes a day. It correlates with elevated cortisol, cardiovascular disease, cognitive decline, reduced immune function, and increased mortality risk.</p>
 <p>Loneliness is not merely unpleasant. It is dangerous in the way that chronic stress is dangerous — silently, cumulatively, at the level of the body.</p>
@@ -106,5 +106,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/loneliness">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

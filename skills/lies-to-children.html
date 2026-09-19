@@ -14,7 +14,7 @@
   <h1>Lies To Children</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/lies-to-children-plate.png" loading="lazy" alt=""><figcaption>The plate of Lies To Children</figcaption></figure><figure class="plate comic"><img src="assets/lies-to-children-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/lies-to-children-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/lies-to-children-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>A lie-to-children is a pedagogical simplification — a model that is technically incorrect but developmentally necessary. The Bohr atom, with its neat electron orbits like planets around a sun, is a lie. Electrons do not orbit. They exist in probability clouds, smeared across space in ways that cannot be visualized without mathematics that would crush a child's capacity to build any mental model at all.</p>
 <p>The lie is not a failure of knowledge. It is a technology of transmission. You cannot teach quantum electrodynamics to an eight-year-old. You can teach them the solar-system atom. Later, when their mind is large enough, you replace the lie with a less-false model. Later still, you replace that one. The sequence is: simplification → complication → deeper complication → the recognition that all models are provisional.</p>
 <p>The educational theory behind this is Vygotsky's zone of proximal development — the distance between what a learner can do alone and what they can do with guidance. The lie-to-children operates inside that zone: it is the scaffold that holds the learner up until they can build their own understanding. Jerome Bruner's spiral curriculum proposes teaching the same concepts at increasing levels of complexity across years, each pass replacing the previous model with a more sophisticated one. The learner does not learn once. They learn, unlearn, and relearn.</p>
@@ -103,5 +103,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/lies-to-children">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

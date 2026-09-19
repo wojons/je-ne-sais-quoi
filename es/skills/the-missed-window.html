@@ -14,7 +14,7 @@
   <h1>La Ventana Perdida</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/the-missed-window-plate.png" loading="lazy" alt=""><figcaption>La lámina de La Ventana Perdida</figcaption></figure><figure class="plate comic"><img src="../assets/the-missed-window-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/the-missed-window-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/the-missed-window-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>En economía, una ventana de oportunidad es un período durante el cual se puede llevar a cabo una acción para lograr un resultado específico. Una vez que la ventana se cierra, la oportunidad deja de estar disponible, independientemente de la voluntad o la capacidad del agente.</p>
 <p>El coste de oportunidad mide el valor de la mejor alternativa a la que se renuncia. La teoría del arrepentimiento, en la economía conductual, describe cómo las personas anticipan el dolor del arrepentimiento al tomar decisiones en condiciones de incertidumbre. El sesgo de retrospectiva hace que los acontecimientos pasados parezcan más predecibles de lo que fueron.</p>
 <p>La teoría de las opciones reales extiende el pensamiento de las opciones financieras a las decisiones no financieras: el valor de mantener abiertas las posibilidades, el coste de la espera, la irreversibilidad de ciertas elecciones.</p>
@@ -76,5 +76,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-missed-window">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

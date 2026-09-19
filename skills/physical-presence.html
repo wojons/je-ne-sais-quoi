@@ -14,7 +14,7 @@
   <h1>Physical Presence</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/physical-presence-plate.png" loading="lazy" alt=""><figcaption>The plate of Physical Presence</figcaption></figure><figure class="plate comic"><img src="assets/physical-presence-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/physical-presence-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/physical-presence-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Physical presence is the state of two or more people occupying the same geographic coordinates simultaneously. Co-location enables higher-bandwidth communication through multiple simultaneous channels — verbal, paraverbal (tone, pace, volume), and nonverbal (posture, facial expression, microexpressions, gesture). Research in communication theory consistently shows that face-to-face interaction carries more information per unit time than mediated forms.</p>
 <p>Proximity enables touch, which releases oxytocin and reduces cortisol. Shared physical environment provides common sensory context that grounds mutual understanding. Eye contact activates neural coupling between conversants, measurably synchronizing brain activity.</p>
 <p>Video communication approximates some of these channels but degrades others — latency disrupts turn-taking rhythm, camera angle removes spatial parity, screen size compresses peripheral cues. Audio-only strips further. Text removes nearly all paraverbal and nonverbal channels.</p>
@@ -97,5 +97,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/physical-presence">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

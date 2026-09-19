@@ -14,7 +14,7 @@
   <h1>Tensión tácita</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/unspoken-tension-plate.png" loading="lazy" alt=""><figcaption>La lámina de Tensión tácita</figcaption></figure><figure class="plate comic"><img src="../assets/unspoken-tension-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/unspoken-tension-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/unspoken-tension-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La tensión tácita es una forma de comunicación implícita en la que los participantes de un entorno social son conscientes de un tema, conflicto o realidad emocional que ninguno de ellos está verbalizando. Funciona como un subconjunto de la lingüística pragmática, el estudio de cómo el contexto contribuye al significado más allá de las palabras literales que se pronuncian.</p>
 <p>En la teoría de la comunicación, a esto se le llama a veces «el elefante en la habitación», un fenómeno tan grande y presente que moldea toda la interacción a su alrededor, pero que es activamente excluido del discurso. La tensión surge de la carga cognitiva que suponen la conciencia y la supresión simultáneas: cada participante debe rastrear continuamente lo que no se puede decir y, al mismo tiempo, generar un discurso que lo evite.</p>
 <p>Las máximas conversacionales de Grice sugieren que la tensión emerge cuando los participantes violan la máxima de relevancia: al no decir deliberadamente lo relevante, crean un vacío informativo del que todas las partes son conscientes. El silencio mismo se vuelve comunicativo. Psicológicamente, esto produce respuestas de estrés elevadas, ya que la corteza prefrontal gestiona la doble tarea de la interacción social y la supresión del tema.</p>
@@ -83,5 +83,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/unspoken-tension">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

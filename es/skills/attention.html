@@ -14,7 +14,7 @@
   <h1>Atención</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/attention-plate.png" loading="lazy" alt=""><figcaption>La lámina de Atención</figcaption></figure><figure class="plate comic"><img src="../assets/attention-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/attention-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/attention-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La atención es el proceso cognitivo de concentrarse selectivamente en un aspecto discreto de la información, ignorando otra información perceptible. Es un recurso limitado: el cerebro no puede procesar todos los estímulos entrantes simultáneamente y debe asignar su capacidad de procesamiento según la prioridad.</p>
 <p>La atención tiene mecanismos conocidos: la atención selectiva filtra los estímulos, la atención sostenida mantiene la concentración a lo largo del tiempo, la atención dividida reparte la capacidad entre tareas (con costes de rendimiento medibles) y la atención ejecutiva gestiona la concentración dirigida a un objetivo en presencia de distracciones.</p>
 <p>La neurociencia es clara: la atención está mediada por redes que involucran el córtex prefrontal, los lóbulos parietales y sistemas de neurotransmisores como la acetilcolina y la dopamina. La memoria de trabajo tiene una capacidad de aproximadamente cuatro elementos. El cambio de tareas tiene un coste cognitivo medible: cada cambio entre tareas degrada el rendimiento y aumenta la tasa de errores.</p>
@@ -78,5 +78,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/attention">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

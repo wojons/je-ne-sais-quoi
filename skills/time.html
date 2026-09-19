@@ -14,7 +14,7 @@
   <h1>Time</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/time-plate.png" loading="lazy" alt=""><figcaption>The plate of Time</figcaption></figure><figure class="plate comic"><img src="assets/time-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/time-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/time-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Time is a dimension in which events occur in sequence — past, present, future. It is measurable. One second is defined as 9,192,631,770 oscillations of a cesium-133 atom. Time moves in one direction. You cannot reverse it.</p>
 <p>Events have duration — they take up a measurable span. Events have order — some happen before others, some after, some simultaneously.</p>
 <p>Time can be absolute — Newton's view, ticking uniformly everywhere regardless of observer — or relative, Einstein's correction, moving differently depending on velocity and gravity.</p>
@@ -94,5 +94,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/time">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

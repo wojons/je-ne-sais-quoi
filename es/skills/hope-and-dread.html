@@ -14,7 +14,7 @@
   <h1>Esperanza y Pavor</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/hope-and-dread-plate.png" loading="lazy" alt=""><figcaption>La lámina de Esperanza y Pavor</figcaption></figure><figure class="plate comic"><img src="../assets/hope-and-dread-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/hope-and-dread-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/hope-and-dread-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La esperanza y el pavor son emociones anticipatorias — estados afectivos orientados a resultados futuros. La esperanza implica desear un resultado positivo creyendo que es posible pero no seguro. El pavor implica anticipar un resultado negativo con una alta probabilidad percibida.</p>
 <p>Ambos pueden medirse con instrumentos psicométricos: la Escala de Esperanza para Adultos (Snyder), la Escala de Pavor en la economía conductual. Ambos operan en el sistema dopaminérgico — la esperanza activa las vías de recompensa incluso antes del resultado; el pavor activa los circuitos de anticipación del dolor en la corteza cingulada anterior.</p>
 <p>La esperanza crónica y el pavor crónico son distintos de sus formas momentáneas. La expectativa positiva sostenida puede convertirse en optimismo irreal (un sesgo cognitivo documentado). La expectativa negativa sostenida puede convertirse en un trastorno de ansiedad generalizada o en depresión clínica. Ambos estados consumen recursos cognitivos — el cerebro mantiene el estado anticipatorio con un coste metabólico, lo que conduce a la fatiga, a una reducción de la memoria de trabajo y a un deterioro en la toma de decisiones.</p>
@@ -70,5 +70,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/hope-and-dread">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

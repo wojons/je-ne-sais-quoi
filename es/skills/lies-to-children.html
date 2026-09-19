@@ -14,7 +14,7 @@
   <h1>Mentiras para niños</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/lies-to-children-plate.png" loading="lazy" alt=""><figcaption>La lámina de Mentiras para niños</figcaption></figure><figure class="plate comic"><img src="../assets/lies-to-children-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/lies-to-children-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/lies-to-children-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Una mentira para niños es una simplificación pedagógica: un modelo técnicamente incorrecto pero necesario para el desarrollo. El átomo de Bohr, con sus nítidas órbitas de electrones como planetas alrededor de un sol, es una mentira. Los electrones no orbitan. Existen en nubes de probabilidad, esparcidos por el espacio de maneras que no pueden visualizarse sin unas matemáticas que aplastarían la capacidad de un niño para construir cualquier modelo mental.</p>
 <p>La mentira no es un fracaso del conocimiento. Es una tecnología de transmisión. No se le puede enseñar electrodinámica cuántica a un niño de ocho años. Se le puede enseñar el átomo como sistema solar. Más tarde, cuando su mente sea lo suficientemente grande, se reemplaza la mentira con un modelo menos falso. Y más tarde aún, se reemplaza ese. La secuencia es: simplificación → complicación → complicación más profunda → el reconocimiento de que todos los modelos son provisionales.</p>
 <p>La teoría educativa detrás de esto es la zona de desarrollo próximo de Vygotsky: la distancia entre lo que un aprendiz puede hacer solo y lo que puede hacer con guía. La mentira para niños opera dentro de esa zona: es el andamio que sostiene al aprendiz hasta que puede construir su propia comprensión. El currículo en espiral de Jerome Bruner propone enseñar los mismos conceptos con niveles crecientes de complejidad a lo largo de los años, reemplazando en cada pasada el modelo anterior por uno más sofisticado. El aprendiz no aprende una sola vez. Aprende, desaprende y reaprende.</p>
@@ -103,5 +103,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/lies-to-children">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

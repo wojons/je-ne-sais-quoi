@@ -14,7 +14,7 @@
   <h1>La rendición</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/surrender-plate.png" loading="lazy" alt=""><figcaption>La lámina de La rendición</figcaption></figure><figure class="plate comic"><img src="../assets/surrender-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/surrender-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/surrender-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La rendición es el acto de ceder ante una fuerza superior o de aceptar que seguir resistiendo es fútil. En contextos militares, es la admisión formal de la derrota: bajar las armas, izar una bandera blanca. En contextos legales, es la transferencia voluntaria de una posesión o de unos derechos. En contextos psicológicos, la rendición se enmarca a veces como aceptación: la etapa final del duelo, la voluntad de dejar de luchar contra lo que no se puede cambiar.</p>
 <p>La distinción entre rendición y derrota es importante. La derrota es impuesta desde fuera: luchaste y perdiste. La rendición se elige desde dentro: decidiste dejar de luchar. La agencia pertenece a quien se rinde, aunque el resultado parezca idéntico a la derrota.</p>
 <p>En algunas tradiciones filosóficas, la rendición no es debilidad, sino sabiduría. Marco Aurelio aconsejaba aceptar lo que está fuera de nuestro control y centrarse únicamente en las propias acciones. La Plegaria de la Serenidad pide «serenidad para aceptar las cosas que no puedo cambiar». En estos marcos, la rendición es una forma de discernimiento: saber la diferencia entre lo que puedes afectar y lo que no, y no malgastar energía en lo segundo.</p>
@@ -109,5 +109,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/surrender">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

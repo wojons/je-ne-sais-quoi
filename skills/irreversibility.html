@@ -14,7 +14,7 @@
   <h1>Irreversibility</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/irreversibility-plate.png" loading="lazy" alt=""><figcaption>The plate of Irreversibility</figcaption></figure><figure class="plate comic"><img src="assets/irreversibility-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/irreversibility-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/irreversibility-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>An irreversible action is one whose effects cannot be returned to the prior state. In thermodynamics, this is entropy — processes that dissipate energy and cannot run backward. In computing, it is a one-way function — easy to compute, infeasible to invert. In decision theory, it is a choice that eliminates alternatives permanently.</p>
 <p>Reversibility is the foundation of safe systems. Databases have transactions and rollback. Code has version control. Decisions can be made reversible through careful architecture. The recommendation is clear: whenever possible, make decisions reversible. Reserve irreversibility for moments when it is unavoidable.</p>
 <p>The distinction matters because reversible decisions can be made fast — you can always undo them. Irreversible decisions should be made slowly, with deliberation, because you will have to live with them.</p>
@@ -80,5 +80,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/irreversibility">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

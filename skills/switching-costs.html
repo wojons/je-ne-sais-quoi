@@ -14,7 +14,7 @@
   <h1>Switching Costs</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/switching-costs-plate.png" loading="lazy" alt=""><figcaption>The plate of Switching Costs</figcaption></figure><figure class="plate comic"><img src="assets/switching-costs-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/switching-costs-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/switching-costs-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Context switching is the cognitive cost of shifting attention between tasks. Research consistently shows that each switch incurs a penalty: time to reorient, time to reload the relevant mental model, time to suppress the previous task's interference. Studies estimate 15 to 25 minutes to regain deep focus after an interruption. The average knowledge worker is interrupted every 3 to 5 minutes.</p>
 <p>The mechanism is straightforward. Working memory has limited capacity. Each task loads a distinct set of constraints, vocabulary, relationships, and goals into that memory. Switching requires unloading one set and loading another. This is computationally expensive. The brain is not a multi-core processor. It is a single-threaded system that simulates parallelism through rapid switching, and the simulation leaks.</p>
 <p>Multitasking is a misnomer. What people call multitasking is task-switching performed quickly. Performance degrades on both tasks. Error rates increase. Emotional regulation decreases. The cumulative cost of a day of frequent switching is not the sum of individual switching costs — it is worse, because the never-settled mind accumulates a residue of unfinished loads that compete for attention simultaneously.</p>
@@ -78,5 +78,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/switching-costs">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

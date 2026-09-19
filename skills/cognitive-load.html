@@ -14,7 +14,7 @@
   <h1>Cognitive Load</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/cognitive-load-plate.png" loading="lazy" alt=""><figcaption>The plate of Cognitive Load</figcaption></figure><figure class="plate comic"><img src="assets/cognitive-load-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/cognitive-load-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/cognitive-load-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Cognitive load refers to the total amount of mental effort being used in working memory. Miller's Law suggests humans can hold approximately 7 plus or minus 2 items in short-term memory. Cognitive Load Theory, developed by John Sweller, distinguishes three types: intrinsic load (inherent complexity of the task), extraneous load (distractions and poor design), and germane load (productive effort toward learning).</p>
 <p>When cognitive load exceeds available capacity, performance degrades. This manifests as slower processing, increased errors, forgetfulness, and decision quality reduction. Task-switching compounds the problem — each context switch carries a cognitive cost estimated at 15-25 minutes of refocusing time.</p>
 <p>Multitasking is a misnomer; the brain actually performs rapid task-switching, which increases total cognitive load beyond the sum of individual tasks. Reducing cognitive load through externalization (writing things down, using tools) and environmental design (reducing interruptions) improves performance.</p>
@@ -98,5 +98,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/cognitive-load">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

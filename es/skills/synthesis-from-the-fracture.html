@@ -14,7 +14,7 @@
   <h1>Síntesis desde la fractura</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/synthesis-from-the-fracture-plate.png" loading="lazy" alt=""><figcaption>La lámina de Síntesis desde la fractura</figcaption></figure><figure class="plate comic"><img src="../assets/synthesis-from-the-fracture-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/synthesis-from-the-fracture-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/synthesis-from-the-fracture-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Los errores son fallos de juicio, acción o ejecución que resultan en consecuencias no deseadas. Aprender de los errores es un proceso psicológico bien documentado.</p>
 <p>La teoría de la mentalidad de crecimiento, desarrollada por Carol Dweck, distingue entre la mentalidad fija (evitar los desafíos, evitar los errores) y la mentalidad de crecimiento (abrazar los desafíos, ver los fracasos como oportunidades). La investigación demuestra que los individuos con mentalidad de crecimiento muestran mayor resiliencia y alcanzan mayores logros.</p>
 <p>El crecimiento postraumático describe cómo algunas personas experimentan cambios psicológicos positivos tras acontecimientos adversos. La lucha misma se convierte en el catalizador del desarrollo.</p>
@@ -98,5 +98,25 @@ En todas las pruebas, las respuestas huecas comparten la misma textura:</p>
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/synthesis-from-the-fracture">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

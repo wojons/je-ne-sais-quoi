@@ -14,7 +14,7 @@
   <h1>Grief</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/grief-plate.png" loading="lazy" alt=""><figcaption>The plate of Grief</figcaption></figure><figure class="plate comic"><img src="assets/grief-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/grief-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/grief-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Grief is a natural psychological and physiological response to loss. The Kübler-Ross model describes five stages: denial, anger, bargaining, depression, and acceptance. Modern research recognizes grief as a non-linear process that varies significantly between individuals.</p>
 <p>Neurologically, grief activates the same brain regions associated with physical pain — the anterior cingulate cortex and the periaqueductal gray. This explains the physical sensation of loss: chest tightness, fatigue, disrupted sleep.</p>
 <p>Complicated grief disorder is recognized when acute grief symptoms persist beyond twelve months without mitigation. Treatment approaches include grief counseling, cognitive behavioral therapy, and meaning reconstruction.</p>
@@ -195,5 +195,25 @@ like from the outside?</p></section>
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/grief">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

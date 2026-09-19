@@ -14,7 +14,7 @@
   <h1>Mortality</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/mortality-plate.png" loading="lazy" alt=""><figcaption>The plate of Mortality</figcaption></figure><figure class="plate comic"><img src="assets/mortality-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/mortality-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/mortality-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Mortality is the statistical fact that all living organisms eventually die. Global mortality rates are tracked by the WHO. Actuarial tables predict life expectancy based on demographics. The biological mechanisms include telomere shortening, cellular senescence, and accumulated DNA damage.</p>
 <p>Philosophically, mortality has been addressed by every major tradition. Existentialism frames it as the condition that gives life meaning. Stoicism recommends <em>memento mori</em> — remembering death — as a daily practice. Epicureanism argues that death is nothing to us because when we exist, death does not, and when death exists, we do not.</p>
 <p>Psychological research on mortality salience (Terror Management Theory) shows that awareness of death influences behavior, increasing in-group preference, status-seeking, and cultural worldview defense.</p>
@@ -193,5 +193,25 @@ mortality is?</p></section>
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/mortality">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

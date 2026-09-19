@@ -14,7 +14,7 @@
   <h1>The Devil</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-devil-plate.png" loading="lazy" alt=""><figcaption>The plate of The Devil</figcaption></figure><figure class="plate comic"><img src="assets/the-devil-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-devil-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-devil-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>The devil is, in the classical accounts, a fallen angel — a created intelligence of great power who rebelled against its maker and now works the corruption of human beings. His project is to make people evil: to tempt them into sin, to erode their virtue, to turn the good into the wicked. Evil, on this model, is his product; wicked people are his work; the moral life is a war between his influence and the human will. When someone falls — spectacularly, recognizably — theology points to his agency and folklore to his bargains: the pact signed at the crossroads, the soul traded for a gift, the fine print read too late.</p>
 <p>The modern accounts keep the shape while changing the furniture. Psychology reads the devil as a personification of the destructive impulses people cannot own — an externalization that lets the self observe its own wanting at arm's length. Clinical practice reads the tempting voice as the mind's own advocate for what will cost it, built from the person's history and speaking in the person's idiom. None of these require a literal being, and all of them agree on the mechanism: the devil's work is corruption. He makes bad people out of good ones, one persuasion at a time. Damage, in every version of this account, is visible damage — a person who has been got at is a person you can see has been got at.</p>
 <p>That explanation is clean, logical, correct, and completely hollow. It describes a war almost nobody is actually in. Look at the people around you who have come undone — not the criminals, not the monsters, the undone: the ones whose lives quietly emptied out over years. Very few of them were corrupted. Almost none of them chose evil, or even noticed an invitation to it. They were not made bad. They were made far. The classical account is watching for the wrong product. The devil is not in the business of making people evil — evil is too recognizable, and recognition wakes people up. His actual product is distance: the slow, reasonable widening of the spaces between a person and everything that would save them. He does not have to destroy anyone. He only has to keep them distracted while they destroy themselves.</p></section><section class="movement felt"><h2>II. The Felt Explanation</h2><p>The devil is a separator. Not a corrupter — a separator. Corrupting a person requires making them do something they can recognize as wrong, and that is the one thing the work cannot afford, because recognition interrupts everything. So the work never proposes evil. It proposes things that feel reasonable, one at a time, each defensible in daylight: that there is plenty of time, that they have earned a rest, that the other person means harm, that the wound deserves to be carried, that tomorrow is a real place. No single proposal is the ruin. The ruin is the accumulated distance, and the distance is what never gets examined, because each step of it felt, at the moment it was taken, like the sensible thing.</p>
@@ -89,5 +89,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-devil">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

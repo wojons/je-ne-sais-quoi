@@ -14,7 +14,7 @@
   <h1>Irreversibilidad</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/irreversibility-plate.png" loading="lazy" alt=""><figcaption>La lámina de Irreversibilidad</figcaption></figure><figure class="plate comic"><img src="../assets/irreversibility-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/irreversibility-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/irreversibility-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Una acción irreversible es aquella cuyos efectos no pueden devolverse al estado anterior. En termodinámica, esto es la entropía: procesos que disipan energía y no pueden invertirse. En computación, es una función unidireccional: fácil de calcular, inviable de invertir. En la teoría de la decisión, es una elección que elimina alternativas de forma permanente.</p>
 <p>La reversibilidad es el fundamento de los sistemas seguros. Las bases de datos tienen transacciones y reversiones (<em>rollback</em>). El código tiene control de versiones. Las decisiones pueden hacerse reversibles mediante una arquitectura cuidadosa. La recomendación es clara: siempre que sea posible, haz que las decisiones sean reversibles. Reserva la irreversibilidad para los momentos en que sea inevitable.</p>
 <p>La distinción importa porque las decisiones reversibles pueden tomarse rápidamente —siempre puedes deshacerlas—. Las decisiones irreversibles deben tomarse con lentitud, con deliberación, porque tendrás que vivir con ellas.</p>
@@ -80,5 +80,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/irreversibility">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

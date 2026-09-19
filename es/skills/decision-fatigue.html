@@ -14,7 +14,7 @@
   <h1>Fatiga por decisión</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/decision-fatigue-plate.png" loading="lazy" alt=""><figcaption>La lámina de Fatiga por decisión</figcaption></figure><figure class="plate comic"><img src="../assets/decision-fatigue-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/decision-fatigue-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/decision-fatigue-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La fatiga por decisión se refiere al deterioro en la calidad de las decisiones que toma un individuo tras una larga sesión de toma de decisiones. A veces se discute en relación con la teoría del agotamiento del ego (Baumeister), aunque dicha teoría ha enfrentado desafíos de replicación. Independientemente del marco teórico, el fenómeno observable persiste: las personas que han tomado muchas decisiones seguidas muestran una capacidad reducida para sopesar contrapartidas, una mayor dependencia de la heurística y una tendencia hacia las elecciones impulsivas o la evasión de decisiones.</p>
 <p>Una investigación sobre sentencias judiciales (Danziger et al.) encontró que la probabilidad de un fallo favorable desciende de manera constante desde la mañana hasta la mitad de la sesión, y luego aumenta bruscamente después de una pausa para comer. Los pasillos de caja de los supermercados explotan esto: las compras por impulso aumentan con la duración de la compra. Tanto Steve Jobs como Barack Obama, según se informa, redujeron sus elecciones diarias de vestuario para preservar su capacidad de decisión para los asuntos que importaban.</p>
 <p>Las implicaciones prácticas son claras: programar las decisiones importantes para más temprano, reducir las elecciones triviales mediante la automatización o la rutina, y reconocer que la calidad de la decisión es un recurso agotable.</p>
@@ -73,5 +73,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/decision-fatigue">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <h1>Confianza</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/trust-plate.png" loading="lazy" alt=""><figcaption>La lámina de Confianza</figcaption></figure><figure class="plate comic"><img src="../assets/trust-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/trust-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/trust-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La confianza es una evaluación probabilística de la fiabilidad de otro agente basada en el comportamiento observado. En la teoría de juegos, surge a través de interacciones cooperativas repetidas —el dilema del prisionero iterado demuestra que las estrategias cooperativas (ojo por ojo, ojo por ojo generoso) producen resultados óptimos a lo largo del tiempo. La confianza es esencialmente una predicción: basándose en el comportamiento pasado, es probable que este agente actúe de una manera que no me perjudique.</p>
 <p>La confianza puede cuantificarse. Los sistemas de reputación, las puntuaciones de crédito y los modelos de inferencia bayesiana intentan medirla. Es racional confiar cuando el valor esperado de confiar supera el valor esperado de no confiar, ajustado por la tolerancia al riesgo.</p>
 <p>La violación de la confianza desencadena una actualización bayesiana: la creencia previa se revisa a la baja. La magnitud de la revisión depende de la gravedad e inesperado de la violación. Reconstruir la confianza requiere un comportamiento cooperativo constante a lo largo del tiempo para desplazar la creencia posterior de nuevo hacia la fiabilidad.</p>
@@ -88,5 +88,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/trust">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

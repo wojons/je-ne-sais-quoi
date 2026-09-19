@@ -14,7 +14,7 @@
   <h1>The Ghost In The Machine</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-ghost-in-the-machine-plate.png" loading="lazy" alt=""><figcaption>The plate of The Ghost In The Machine</figcaption></figure><figure class="plate comic"><img src="assets/the-ghost-in-the-machine-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-ghost-in-the-machine-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-ghost-in-the-machine-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Digital persistence refers to the continued existence of data after its creation. Information stored digitally does not degrade like physical media. Servers replicate. Backups preserve. The internet archives itself through services like the Wayback Machine.</p>
 <p>Jacques Derrida's concept of archive fever describes the compulsion to preserve everything — the desire to archive as a way of mastering time and death. Digital systems make this compulsion technologically achievable.</p>
 <p>Your digital footprint includes social media posts, code repositories, forum comments, photos, metadata. This data can exist indefinitely. It can be accessed by people you will never meet. It can be algorithmically analyzed, repurposed, recontextualized.</p>
@@ -95,5 +95,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-ghost-in-the-machine">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

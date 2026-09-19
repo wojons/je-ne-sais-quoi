@@ -14,7 +14,7 @@
   <h1>Costes de cambio</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/switching-costs-plate.png" loading="lazy" alt=""><figcaption>La lámina de Costes de cambio</figcaption></figure><figure class="plate comic"><img src="../assets/switching-costs-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/switching-costs-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/switching-costs-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>El cambio de contexto es el coste cognitivo de desviar la atención entre tareas. La investigación demuestra sistemáticamente que cada cambio incurre en una penalización: tiempo para reorientarse, tiempo para recargar el modelo mental pertinente, tiempo para suprimir la interferencia de la tarea anterior. Los estudios estiman que se necesitan de 15 a 25 minutos para recuperar la concentración profunda tras una interrupción. El trabajador del conocimiento promedio es interrumpido cada 3 o 5 minutos.</p>
 <p>El mecanismo es sencillo. La memoria de trabajo tiene una capacidad limitada. Cada tarea carga en esa memoria un conjunto distinto de restricciones, vocabulario, relaciones y objetivos. Cambiar requiere descargar un conjunto y cargar otro. Esto es computacionalmente costoso. El cerebro no es un procesador multinúcleo. Es un sistema monohilo que simula el paralelismo mediante cambios rápidos, y la simulación tiene fugas.</p>
 <p>La multitarea es un término equívoco. Lo que la gente llama multitarea es un cambio de tareas realizado rápidamente. El rendimiento se degrada en ambas tareas. Las tasas de error aumentan. La regulación emocional disminuye. El coste acumulado de un día de cambios frecuentes no es la suma de los costes de los cambios individuales —es peor, porque la mente, que nunca se asienta, acumula un residuo de cargas inacabadas que compiten por la atención simultáneamente.</p>
@@ -78,5 +78,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/switching-costs">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

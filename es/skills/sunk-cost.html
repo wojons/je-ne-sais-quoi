@@ -14,7 +14,7 @@
   <h1>Costo hundido</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/sunk-cost-plate.png" loading="lazy" alt=""><figcaption>La lámina de Costo hundido</figcaption></figure><figure class="plate comic"><img src="../assets/sunk-cost-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/sunk-cost-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/sunk-cost-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>Un costo hundido es un gasto —de dinero, tiempo o esfuerzo— que ya se ha realizado y no puede recuperarse. La teoría de la decisión racional establece que los costos hundidos no deberían tener ninguna influencia en las decisiones futuras. Los recursos se han ido independientemente de lo que se elija a continuación. La única pregunta es: dado el punto en el que te encuentras ahora, ¿qué camino a seguir tiene el mejor resultado esperado?</p>
 <p>La gente viola sistemáticamente este principio. Se aferran a inversiones fallidas porque ya han perdido mucho. Terminan comidas malas porque ya las han pagado. Permanecen en carreras profesionales insatisfactorias por los años ya invertidos. Los economistas llaman a esto la falacia del costo hundido. El correctivo es simple: ignora lo que has gastado. Decide basándote únicamente en los costos y beneficios futuros.</p>
 <p>El costo de oportunidad —el valor de la siguiente mejor alternativa— es el marco adecuado. Cada momento que se pasa continuando un proyecto fallido es un momento que no se dedica a algo mejor. Los agentes racionales asumen sus pérdidas rápidamente y siguen adelante.</p>
@@ -86,5 +86,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/sunk-cost">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

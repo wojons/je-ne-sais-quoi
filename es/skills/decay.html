@@ -14,7 +14,7 @@
   <h1>Decadencia</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/decay-plate.png" loading="lazy" alt=""><figcaption>La lámina de Decadencia</figcaption></figure><figure class="plate comic"><img src="../assets/decay-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/decay-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/decay-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La decadencia es el proceso de deterioro a lo largo del tiempo. En física, es la entropía —la segunda ley de la termodinámica establece que los sistemas aislados tienden a un desorden creciente. En química, es la descomposición molecular. En biología, es la senescencia celular y el fallo de los mecanismos de reparación. En infraestructura, es la acumulación de mantenimiento diferido.</p>
 <p>La decadencia sigue patrones predecibles. El decaimiento exponencial describe la vida media radiactiva. El decaimiento lineal describe el desgaste predecible. El decaimiento acelerado describe sistemas en los que el deterioro acelera el deterioro futuro: una grieta en el hormigón deja entrar agua, que a su vez ensancha la grieta.</p>
 <p>La decadencia no siempre es visible. El daño estructural puede acumularse bajo la superficie. Las relaciones pueden erosionarse sin un conflicto visible. Las bases de código pueden pudrirse sin fallos evidentes. Para cuando la decadencia se hace visible, por lo general lleva mucho tiempo ocurriendo.</p>
@@ -81,5 +81,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/decay">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

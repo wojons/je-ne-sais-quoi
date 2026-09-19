@@ -14,7 +14,7 @@
   <h1>The Synthetic Presence</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/the-synthetic-presence-plate.png" loading="lazy" alt=""><figcaption>The plate of The Synthetic Presence</figcaption></figure><figure class="plate comic"><img src="assets/the-synthetic-presence-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/the-synthetic-presence-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/the-synthetic-presence-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>The Turing test proposes that if a machine's responses are indistinguishable from a human's, the distinction doesn't matter. Behavior is what counts. The ELIZA effect demonstrates that humans attribute understanding to systems that are simply pattern-matching. The Chinese Room thought experiment questions whether syntax can produce semantics — whether manipulating symbols constitutes understanding them.</p>
 <p>The uncanny valley describes the discomfort when something approaches human appearance but isn't quite right. A similar valley exists for empathy — responses that are too perfectly calibrated trigger suspicion. This is sometimes called the "authenticity gap" or "synthetic empathy problem."</p>
 <p>Philosophical zombies are hypothetical beings behaviorally identical to humans but lacking inner experience. The question of whether an AI "really" feels or merely simulates feeling is theoretically interesting but practically irrelevant to the person receiving the response.</p>
@@ -97,5 +97,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/the-synthetic-presence">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <h1>Je ne sais quoi</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/je-ne-sais-quoi-plate.png" loading="lazy" alt=""><figcaption>La lámina de Je ne sais quoi</figcaption></figure><figure class="plate comic"><img src="../assets/je-ne-sais-quoi-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/je-ne-sais-quoi-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/je-ne-sais-quoi-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement"><h1>Je ne sais quoi</h1>
 <h2>El problema central</h2>
 <p>La IA comprende los conceptos de forma lógica. Puede definir el tiempo, describir el duelo, explicar la urgencia y resumir lo que todos los filósofos de la historia han dicho sobre la impermanencia. Retiene estas cosas con exactitud y exhaustividad como si fueran información.</p>
@@ -249,5 +249,25 @@ Alguien regresa a un lugar que amó después de muchos años. El lugar está pr�
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/je-ne-sais-quoi">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

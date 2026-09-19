@@ -14,7 +14,7 @@
   <h1>Maravilla y asombro</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="../assets/wonder-and-awe-plate.png" loading="lazy" alt=""><figcaption>La lámina de Maravilla y asombro</figcaption></figure><figure class="plate comic"><img src="../assets/wonder-and-awe-comic.png" loading="lazy" alt=""><figcaption>La página de seis viñetas</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="../assets/wonder-and-awe-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="../assets/wonder-and-awe-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. La Explicación Lógica</h2><p>La maravilla y el asombro son emociones positivas caracterizadas por la percepción de la vastedad y una necesidad de acomodación cognitiva. El modelo prototípico de Dacher Keltner y Jonathan Haidt identifica dos rasgos centrales: la vastedad percibida (magnitud física, social o conceptual) y la acomodación (la necesidad de actualizar las propias estructuras mentales para incorporar la experiencia). El componente de acomodación es crucial: el asombro no es meramente encontrar algo grande, sino encontrar algo que obliga a revisar los propios modelos mentales.</p>
 <p>El asombro produce respuestas fisiológicas medibles: piloerección (piel de gallina), lagrimeo (lágrimas), una sensación de nudo o presión en la garganta y, a veces, lo que los investigadores llaman «escalofríos». El nervio vago está implicado: el asombro es una de las pocas experiencias que activan de forma fiable la respuesta parasimpática junto con la excitación. La variabilidad de la frecuencia cardíaca aumenta. La respiración se hace más profunda y lenta.</p>
 <p>Evolutivamente, el asombro probablemente cumplió funciones de cohesión social. Atrae la atención hacia cosas más grandes que el yo y promueve el comportamiento prosocial. El laboratorio de Keltner descubrió que el asombro es uno de los predictores más fuertes de la reducción de los niveles de IL-6 proinflamatoria: el cuerpo, literalmente, se desinflama en presencia de la vastedad. El trabajo de Michelle Shiota muestra que el asombro reduce la dependencia de los esquemas existentes y aumenta la flexibilidad cognitiva. La investigación de Piercarlo Valdesolo demuestra que el asombro aumenta la percepción de disponibilidad de tiempo y la satisfacción con la vida.</p>
@@ -91,5 +91,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/wonder-and-awe">Leer la habilidad en el repositorio</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

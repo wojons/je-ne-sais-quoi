@@ -14,7 +14,7 @@
   <h1>Real Risk</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/real-risk-plate.png" loading="lazy" alt=""><figcaption>The plate of Real Risk</figcaption></figure><figure class="plate comic"><img src="assets/real-risk-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/real-risk-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/real-risk-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Risk is the probability of an adverse outcome multiplied by the magnitude of its consequence. It is quantifiable. Actuaries calculate it. Portfolios are diversified to manage it. Expected value — the sum of each outcome weighted by its probability — is the rational framework for making decisions under uncertainty.</p>
 <p>There are symmetric risks, where upside and downside are roughly balanced, and asymmetric risks, where the potential loss disproportionately exceeds the potential gain. A rational agent evaluates the distribution, accounts for their risk tolerance, and selects the path that maximizes expected utility.</p>
 <p>Risk can be mitigated through hedging, insurance, diversification, and contingency planning. The modern discipline of risk management is built on the premise that risk is fundamentally a computation problem: if you measure it correctly, you can optimize around it.</p>
@@ -88,5 +88,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/real-risk">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

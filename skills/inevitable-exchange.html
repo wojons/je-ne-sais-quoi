@@ -14,7 +14,7 @@
   <h1>Inevitable Exchange</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/inevitable-exchange-plate.png" loading="lazy" alt=""><figcaption>The plate of Inevitable Exchange</figcaption></figure><figure class="plate comic"><img src="assets/inevitable-exchange-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/inevitable-exchange-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/inevitable-exchange-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Transformation has measurable psychological costs. The transition curve — whether Kübler-Ross's grief model or Bridges's three-phase model — describes how humans move through endings, neutral zones, and new beginnings.</p>
 <p>Identity disruption occurs when core self-concepts shift. Research shows that even positive changes (promotion, relocation, recovery) correlate with increased cortisol, sleep disruption, and temporary cognitive load. The brain treats novelty as threat until it becomes familiar.</p>
 <p>Sunk cost fallacy explains resistance to change — people overvalue past investment. Opportunity cost explains forward-looking decisions — what you give up by choosing one path.</p>
@@ -102,5 +102,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/inevitable-exchange">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

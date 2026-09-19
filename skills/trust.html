@@ -14,7 +14,7 @@
   <h1>Trust</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/trust-plate.png" loading="lazy" alt=""><figcaption>The plate of Trust</figcaption></figure><figure class="plate comic"><img src="assets/trust-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/trust-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/trust-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Trust is a probabilistic assessment of another agent's reliability based on observed behavior. In game theory, it emerges through repeated cooperative interactions — the iterated prisoner's dilemma demonstrates that cooperative strategies (tit-for-tat, generous tit-for-tat) produce optimal outcomes over time. Trust is essentially a prediction: based on past behavior, this agent is likely to act in a way that does not harm me.</p>
 <p>Trust can be quantified. Reputation systems, credit scores, and Bayesian inference models all attempt to measure it. It is rational to trust when the expected value of trusting exceeds the expected value of not trusting, adjusted for risk tolerance.</p>
 <p>Trust violation triggers a Bayesian update — the prior is revised downward. The magnitude of revision depends on the severity and unexpectedness of the violation. Rebuilding trust requires consistent cooperative behavior over time to shift the posterior back toward trustworthiness.</p>
@@ -88,5 +88,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/trust">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>

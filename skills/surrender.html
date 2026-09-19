@@ -14,7 +14,7 @@
   <h1>Surrender</h1>
 </header>
 <main class="sheet">
-  <figure class="plate"><img src="assets/surrender-plate.png" loading="lazy" alt=""><figcaption>The plate of Surrender</figcaption></figure><figure class="plate comic"><img src="assets/surrender-comic.png" loading="lazy" alt=""><figcaption>The page of six panels</figcaption></figure>
+  <div class="carousel" data-n="2"><div class="ctrack"><figure class="slide"><img src="assets/surrender-plate.webp" loading="lazy" alt="Plate"></figure><figure class="slide"><img src="assets/surrender-comic.webp" loading="lazy" alt="Six panels"></figure></div><div class="cnav"><button type="button" data-i="0">Plate</button><button type="button" data-i="1">Six panels</button></div></div>
   <section class="movement "><h2>I. The Logical Explanation</h2><p>Surrender is the act of yielding to a superior force or accepting that continued resistance is futile. In military contexts, it is the formal admission of defeat — the lowering of weapons, the raising of a white flag. In legal contexts, it is the voluntary transfer of possession or rights. In psychological contexts, surrender is sometimes framed as acceptance — the final stage of grief, the willingness to stop fighting what cannot be changed.</p>
 <p>The distinction between surrender and defeat is important. Defeat is imposed from outside — you fought and lost. Surrender is chosen from inside — you decided to stop fighting. The agency belongs to the one who surrenders, even though the outcome appears identical to defeat.</p>
 <p>In some philosophical traditions, surrender is not weakness but wisdom. Marcus Aurelius advised accepting what is outside your control and focusing only on your own actions. The Serenity Prayer asks for "the serenity to accept the things I cannot change." In these framings, surrender is a form of discernment — knowing the difference between what you can affect and what you cannot, and not wasting energy on the latter.</p>
@@ -109,5 +109,25 @@
     <a href="https://github.com/wojons/je-ne-sais-quoi/tree/main/skills/surrender">Read the skill in the repository</a>
   </nav>
 </main>
+<script>
+document.querySelectorAll('.carousel').forEach(function (c) {
+  var track = c.querySelector('.ctrack'), btns = Array.prototype.slice.call(c.querySelectorAll('.cnav button'));
+  function active() {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); });
+  });
+  track.addEventListener('scroll', function () { clearTimeout(c._t); c._t = setTimeout(active, 90); });
+  c.tabIndex = 0;
+  c.addEventListener('keydown', function (e) {
+    var i = Math.round(track.scrollLeft / track.clientWidth);
+    if (e.key === 'ArrowRight') { track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollTo({ left: Math.max(0, i - 1) * track.clientWidth, behavior: 'smooth' }); }
+  });
+  active();
+});
+</script>
 </body>
 </html>
