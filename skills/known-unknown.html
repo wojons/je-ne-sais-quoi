@@ -125,42 +125,45 @@ document.querySelectorAll('.carousel').forEach(function (c) {
 </script>
 <script>
 (function () {
-  function hydrate(el) {
-    el.querySelectorAll('img[data-src]').forEach(function (i) {
-      i.src = i.getAttribute('data-src'); i.removeAttribute('data-src');
+  var CAP = 3;   // alternates loaded per card before it is touched
+  function hydrate(el, all) {
+    var imgs = el.querySelectorAll('img[data-src]');
+    for (var i = 0; i < imgs.length; i++) {
+      if (!all && i >= CAP) break;
+      imgs[i].src = imgs[i].getAttribute('data-src');
+      imgs[i].removeAttribute('data-src');
+    }
+  }
+  // Visibility is checked on a timer rather than via scroll events,
+  // requestAnimationFrame or IntersectionObserver: all three are unreliable
+  // or absent on some real devices and renderers, timers are not.
+  function hydrateNear() {
+    var vh = window.innerHeight || 800;
+    var elapsed = (Date.now() - started) / 1000;
+    document.querySelectorAll('.card-strip, .carousel').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var inView = r.top < vh * 1.8 && r.bottom > -vh;
+      if (inView) {
+        if (!el.hasAttribute('data-h')) { el.setAttribute('data-h', '1'); hydrate(el); }
+        else if (elapsed < 45 && !el.hasAttribute('data-h2')) {
+          el.setAttribute('data-h2', '1'); hydrate(el);   // second wave for what is on screen
+        }
+      }
     });
   }
-  // Progressive hydration: no dependency on scroll/rAF/IntersectionObserver
-  // (each of those is unreliable on some real devices and renderers).
-  function queue() {
-    var els = Array.prototype.slice.call(
-      document.querySelectorAll('.card-strip:not([data-h]), .carousel:not([data-h])'));
-    if (!els.length) return;
-    els.slice(0, 6).forEach(function (el) { el.setAttribute('data-h', '1'); hydrate(el); });
-  }
-  var slow = false;
-  try {
-    var c = navigator.connection || {};
-    slow = !!(c.saveData || /(^|-)2g$/.test(c.effectiveType || ''));
-  } catch (e) {}
-  if (!slow) {
-    queue();                       // first batch right away, after the first paints
-    var iv = setInterval(function () {
-      if (document.querySelector('.card-strip:not([data-h]), .carousel:not([data-h])')) queue();
-      else clearInterval(iv);
-    }, 350);
-  }
-  window.addEventListener('touchstart', queue, { passive: true });
+  var started = Date.now();
   document.addEventListener('pointerdown', function (e) {
     var t = e.target.closest ? e.target.closest('.card-strip, .carousel') : null;
-    if (t) { t.setAttribute('data-h', '1'); hydrate(t); }
+    if (t) hydrate(t, true);
   }, true);
   document.addEventListener('mouseover', function (e) {
     var t = e.target.closest ? e.target.closest('.card-strip, .carousel') : null;
-    if (t) { t.setAttribute('data-h', '1'); hydrate(t); }
+    if (t) hydrate(t, true);
   }, true);
-  if (document.readyState === 'complete') { setTimeout(queue, 300); }
-  else { window.addEventListener('load', function () { setTimeout(queue, 300); }); }
+  window.addEventListener('touchstart', function () { hydrateNear(); }, { passive: true });
+  hydrateNear();
+  var iv = setInterval(hydrateNear, 800);
+  window.addEventListener('load', function () { hydrateNear(); });
 })();
 </script>
 </body>
