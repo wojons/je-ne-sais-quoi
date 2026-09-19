@@ -43,7 +43,8 @@ a { color: var(--madder); }
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(59,42,26,0.28); }
-.card-img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 1px solid var(--parch-edge); }
+.card-img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: contain;
+  background: var(--parch-dark); border-bottom: 1px solid var(--parch-edge); }
 .card-img-missing { aspect-ratio: 2/3;
   background: repeating-linear-gradient(45deg, var(--parch-dark), var(--parch-dark) 12px, var(--parch) 12px, var(--parch) 24px); }
 .card-body { padding: 0.9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; flex: 1; }
@@ -103,6 +104,7 @@ figure.plate figcaption { margin-top: 0.5rem; font-style: italic; color: var(--i
 
 /* ---- index cards: each card's art is a swipeable strip ---- */
 .card-strip { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  align-items: flex-start;
   scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .card-strip::-webkit-scrollbar { display: none; }
 .card-strip .card-img { flex: 0 0 100%; scroll-snap-align: center; }
