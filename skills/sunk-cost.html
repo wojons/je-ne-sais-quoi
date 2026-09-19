@@ -120,11 +120,12 @@ document.querySelectorAll('.carousel').forEach(function (c) {
       if (r.top < vh * 1.6 && r.bottom > -vh) { el.setAttribute('data-h', '1'); hydrate(el); }
     });
   }
-  var pending = false;
+  var last = 0;
   function onScroll() {
-    if (pending) return;
-    pending = true;
-    requestAnimationFrame(function () { pending = false; hydrateNear(); });
+    var now = Date.now();
+    if (now - last < 120) return;   // time-based throttle: works even where
+    last = now;                      // rAF/IntersectionObserver never fire
+    hydrateNear();
   }
   // deterministic triggers only — no reliance on lazy-loading or IntersectionObserver
   window.addEventListener('scroll', onScroll, { passive: true });
