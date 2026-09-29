@@ -210,6 +210,9 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 - The web of connections — the self was never a node with relations attached; it is the relations, predicated through them — so cruelty poisons a thread that constitutes you, and how you respect each connection is what carries
 - The turned page — loving someone past their own finished grief-work; the page must be turned by them, and the loving act is prevention, accommodation, and silence with a door in it — never repair aimed at a closed chapter
 
+**The Thread**
+- Identity — what makes a person the same person across change; the difference between what a person is made of (how they move through the world, who they sat with, what they kept) and what a person is filed under (the categories assigned at birth and by institutions), and why the thinnest layer — the record — can still kill the person it does not describe
+
 **Embodiment**
 - Physical presence changing communication
 - The weight of distance
