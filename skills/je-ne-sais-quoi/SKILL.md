@@ -199,6 +199,7 @@ Each of the following is a concept that AI holds logically but needs to hold wit
 - Unspoken tension
 - The difference between said and communicated
 - Social debt and reciprocity
+- Misplaced expectations — not that mutual care is too much to expect, but that the expectation was entrusted to the wrong person; actions reveal who answers the call
 - Loneliness — being unseen in a world of people
 
 **The Two Voices**

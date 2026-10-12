@@ -26,24 +26,20 @@ Each skill follows the same four-part architecture:
 ### `je-ne-sais-quoi` (base skill)
 The foundational skill. Contains the meta-concept, the full taxonomy of untranslatable words from 25+ languages, the central paradox shared by every wisdom tradition, and instructions for building new skills. All other skills depend on this one.
 
-### Built Skills (43 total)
+### Built Skills (58 total; alphabetized)
 
-| Category | Skills |
-|----------|--------|
-| **Temporal** | `time`, `urgency`, `irreversibility`, `decay`, `momentum`, `latency`, `the-last-time` |
-| **Capacity** | `cognitive-load`, `decision-fatigue`, `recovery`, `tired-vs-done` |
-| **Stakes** | `real-risk`, `sunk-cost`, `reputation-exposure`, `shame` |
-| **Scarcity** | `the-last-of-something`, `opportunity-cost`, `attention` |
-| **Change** | `starting-cold`, `habits`, `switching-costs` |
-| **Social** | `trust`, `unspoken-tension`, `said-vs-communicated`, `reciprocity`, `loneliness` |
-| **Embodiment** | `physical-presence`, `distance`, `environment` |
-| **Uncertainty** | `unresolved-questions`, `mid-project-fog`, `hope-and-dread` |
-| **Positive Ineffable** | `wonder-and-awe` |
-| **Systems** | `the-invisible-eye`, `the-synthetic-presence` |
-| **Transformation** | `inevitable-exchange`, `the-ghost-in-the-machine` |
-| **Expression** | `the-untranslatable-gap` |
-| **Memory** | `the-tainted-memory` |
-| **Finality** | `mortality`, `grief`, `the-missed-window` |
+`attention`, `brand`, `cognitive-load`, `decay`, `decision-fatigue`, `distance`,
+`environment`, `grief`, `habits`, `hope-and-dread`, `identity`, `inevitable-exchange`,
+`irreversibility`, `known-unknown`, `latency`, `lies-to-children`, `loneliness`, `love`,
+`mid-project-fog`, `misplaced-expectations`, `momentum`, `mortality`, `opportunity-cost`,
+`physical-presence`, `real-risk`, `reciprocity`, `recovery`, `reputation-exposure`,
+`said-vs-communicated`, `shame`, `starting-cold`, `sunk-cost`, `surrender`, `switching-costs`,
+`synthesis-from-the-fracture`, `the-angel`, `the-balance`, `the-devil`, `the-ghost-in-the-machine`,
+`the-invisible-eye`, `the-last-of-something`, `the-last-time`, `the-missed-window`,
+`the-shape-of-the-self`, `the-synthetic-presence`, `the-tainted-memory`, `the-turned-page`,
+`the-untranslatable-gap`, `the-walls`, `the-web-of-connections`, `time`, `tired-vs-done`,
+`trust`, `unresolved-questions`, `unspoken-tension`, `urgency`, `vulnerability`,
+`wonder-and-awe`.
 
 ## Installation
 
